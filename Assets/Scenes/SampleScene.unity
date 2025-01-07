@@ -473,8 +473,8 @@ GameObject:
   - component: {fileID: 552158246}
   - component: {fileID: 552158245}
   - component: {fileID: 552158244}
-  - component: {fileID: 552158247}
   - component: {fileID: 552158248}
+  - component: {fileID: 552158249}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -521,11 +521,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 60.000004
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -549,29 +549,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552158243}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 20, y: 0, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &552158247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 552158243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3f79a30e710e16468c83414405da8df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snakeHead: {fileID: 1333400585}
-  distance: 10
-  camSpeed: 20
-  firstPerson: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
 --- !u!54 &552158248
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -599,6 +583,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 16
   m_CollisionDetection: 0
+--- !u!114 &552158249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552158243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f79a30e710e16468c83414405da8df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snakeHead: {fileID: 1333400585}
+  distance: 10
+  camSpeed: 20
+  firstPerson: 0
 --- !u!1 &613684865
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,6 +931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dir: {x: 1, y: 0, z: 0}
   moveTime: 0
+  vCam: {fileID: 0}
 --- !u!1 &1367269559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,8 +1254,8 @@ MeshFilter:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 552158246}
   - {fileID: 547955100}
   - {fileID: 1333400589}
   - {fileID: 490909527}
   - {fileID: 1589572}
+  - {fileID: 552158246}

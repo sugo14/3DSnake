@@ -15,18 +15,19 @@ public class CameraScript : MonoBehaviour
         currPos = new Vector3(0, 0, 0);
     }
 
-    // Update is called once per frame
-    void Update()
+    /* // Update is called once per frame
+    void LateUpdate()
     {
-        if (firstPerson) {
-            Vector2 targetPos = snakeHead.transform.position - snakeHead.GetComponent<SnakeHeadScript>().dir * -0.01f;
-            gameObject.transform.position = targetPos;
-        }
-        else {
-            Vector2 targetPos = snakeHead.GetComponent<SnakeHeadScript>().dir;
-            currPos = Vector3.Slerp(currPos, targetPos, 0.001f * camSpeed);
-            gameObject.transform.position = snakeHead.transform.position + currPos * distance;
-        }
-        gameObject.transform.rotation = Quaternion.LookRotation(snakeHead.transform.position - gameObject.transform.position, Vector3.down);
+        Vector2 targetPos = snakeHead.GetComponent<SnakeHeadScript>().dir;
+        currPos = Vector3.Slerp(currPos, targetPos, 0.3f * Time.deltaTime * camSpeed);
+        gameObject.transform.position = snakeHead.transform.position + currPos * distance;
+        Transform t = gameObject.transform;
+        t.rotation = Quaternion.LookRotation(snakeHead.transform.position - t.position, Vector3.up);
+    } */
+
+    void Update() {
+        Transform t = gameObject.transform;
+        t.position = snakeHead.transform.position + Vector3.ClampMagnitude(snakeHead.transform.position, 1) * 10;
+        t.rotation = Quaternion.LookRotation(Vector3.zero - t.position, Vector3.up);
     }
 }

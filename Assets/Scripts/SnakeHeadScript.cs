@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
+
+public enum Square {
+    Top, Bottom, Left, Right, Front, Back
+};
 
 public class SnakeHeadScript : MonoBehaviour
 {
-    public Vector3 dir;
-    public float moveTime;
+    public Vector2 dir;
+    public float moveTime = 1f;
+    public Square currSquare = Square.Top;
 
     bool wantsUp, wantsDown, wantsLeft, wantsRight;
     float timer;
@@ -13,7 +19,7 @@ public class SnakeHeadScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dir = new Vector3(1, 0, 0);
+        dir = new Vector2(1, 0);
         wantsUp = false; wantsDown = false; wantsLeft = false; wantsRight = false;
         timer = 0f;
     }
@@ -33,18 +39,19 @@ public class SnakeHeadScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D)) {
             wantsRight = true;
         }
-        /* timer += Time.deltaTime;
-        if (timer >= moveTime) { */
+        timer += Time.deltaTime;
+        if (timer >= moveTime) {
             Vector3 newDir = Vector3.zero;
             if (wantsUp == true) {
-                newDir = new Vector3(-dir.y, dir.x, dir.z);
+                newDir = new Vector2(1, 0);
                 dir = newDir;
             }
             wantsUp = false;
             wantsDown = false;
             wantsLeft = false;
             wantsRight = false;
-        /* } */
-        transform.position += dir * Time.deltaTime;
+            timer = 0;
+            transform.position += new Vector3(newDir.x, newDir.y, 0);
+        }
     }
 }
