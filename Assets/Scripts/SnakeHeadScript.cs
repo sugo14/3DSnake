@@ -1,17 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
-
-public enum Square {
-    Top, Bottom, Left, Right, Front, Back
-};
 
 public class SnakeHeadScript : MonoBehaviour
 {
     public Vector2 dir;
-    public float moveTime = 1f;
+    public float moveTime = 1f, debugScale = 1f;
     public Square currSquare = Square.Top;
+    public CubeOrient orient;
 
     bool wantsUp, wantsDown, wantsLeft, wantsRight;
     float timer;
@@ -22,6 +16,7 @@ public class SnakeHeadScript : MonoBehaviour
         dir = new Vector2(1, 0);
         wantsUp = false; wantsDown = false; wantsLeft = false; wantsRight = false;
         timer = 0f;
+        orient = new CubeOrient();
     }
 
     // Update is called once per frame
@@ -43,6 +38,10 @@ public class SnakeHeadScript : MonoBehaviour
         if (timer >= moveTime) {
             Vector3 newDir = Vector3.zero;
             if (wantsUp == true) {
+                newDir = new Vector3();
+                dir = newDir;
+            }
+            if (wantsDown == true) {
                 newDir = new Vector2(1, 0);
                 dir = newDir;
             }
@@ -51,7 +50,9 @@ public class SnakeHeadScript : MonoBehaviour
             wantsLeft = false;
             wantsRight = false;
             timer = 0;
-            transform.position += new Vector3(newDir.x, newDir.y, 0);
+            orient.GoUp();
+            Debug.Log(orient.ToString());
+            transform.position = orient.WorldPosition() * debugScale;
         }
     }
 }

@@ -7,6 +7,7 @@ public class CameraScript : MonoBehaviour
     public GameObject snakeHead;
     public float distance = 10, camSpeed = 20;
     public bool firstPerson = false;
+    public float speed = 10;
     Vector3 currPos;
 
     // Start is called before the first frame update
@@ -27,7 +28,9 @@ public class CameraScript : MonoBehaviour
 
     void Update() {
         Transform t = gameObject.transform;
-        t.position = snakeHead.transform.position + Vector3.ClampMagnitude(snakeHead.transform.position, 1) * 10;
-        t.rotation = Quaternion.LookRotation(Vector3.zero - t.position, Vector3.up);
+        Vector3 desiredPos = snakeHead.transform.position + Vector3.ClampMagnitude(snakeHead.transform.position, 1) * 10;
+        Quaternion desiredRot = Quaternion.LookRotation(Vector3.zero - desiredPos, Vector3.up);
+        transform.position = Vector3.Slerp(transform.position, desiredPos, speed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRot, speed * Time.deltaTime);
     }
 }
