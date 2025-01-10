@@ -29,7 +29,7 @@ public class CameraScript : MonoBehaviour
     void Update() {
         Transform t = gameObject.transform;
         Vector3 desiredPos = snakeHead.transform.position + Vector3.ClampMagnitude(snakeHead.transform.position, 1) * 10;
-        Quaternion desiredRot = Quaternion.LookRotation(Vector3.zero - desiredPos, Vector3.up);
+        Quaternion desiredRot = Quaternion.LookRotation(Vector3.zero - desiredPos, snakeHead.GetComponent<SnakeHeadScript>().orient.SnakeUp());
         transform.position = Vector3.Slerp(transform.position, desiredPos, speed * Time.deltaTime);
         transform.rotation = Quaternion.Slerp(transform.rotation, desiredRot, speed * Time.deltaTime);
     }
