@@ -5,7 +5,7 @@ public enum Square {
 };
 
 public class CubeOrient {
-    public static int SquareSize = 2;
+    public static int SquareSize = 6;
 
     public Square square;
     public Vector2Int pos;
@@ -70,7 +70,7 @@ public class CubeOrient {
         pos.y++;
         if (pos.y < SquareSize) { return; }
         if (square == Square.Left) {
-            pos = new Vector2Int(0, pos.x);
+            pos = new Vector2Int(0, SquareSize - 1 - pos.x);
             dir = Vector2Int.right;
         }
         else if (square == Square.Right) {
@@ -98,14 +98,14 @@ public class CubeOrient {
         pos.x--;
         if (pos.x >= 0) { return; }
         else if (square == Square.Top) {
-            pos = new Vector2Int(0, pos.x);
+            pos = new Vector2Int(SquareSize - 1 - pos.y, SquareSize - 1);
             dir = Vector2Int.down;
         }
         else if (square == Square.Bottom) {
             pos = new Vector2Int(pos.y, 0);
             dir = Vector2Int.up;
         }
-        if (square == Square.Left) {
+        else if (square == Square.Left) {
             pos = new Vector2Int(0, SquareSize - 1 - pos.y);
             dir = Vector2Int.right;
         }
@@ -121,18 +121,18 @@ public class CubeOrient {
         if (pos.x < SquareSize) { return; }
         else if (square == Square.Top) {
             pos = new Vector2Int(pos.y, SquareSize - 1);
-            dir = Vector2Int.left;
+            dir = Vector2Int.down;
         }
         else if (square == Square.Bottom) {
             pos = new Vector2Int(SquareSize - 1 - pos.y, 0);
             dir = Vector2Int.up;
         }
-        if (square == Square.Left) {
-            pos = new Vector2Int(0, SquareSize - 1 - pos.y);
+        else if (square == Square.Right) {
+            pos = new Vector2Int(SquareSize - 1, SquareSize - 1 - pos.y);
             dir = Vector2Int.left;
         }
         else if (square == Square.Back) {
-            pos = new Vector2Int(0, SquareSize - 1 - pos.y);
+            pos = new Vector2Int(SquareSize - 1, SquareSize - 1 - pos.y);
             dir = Vector2Int.left;
         }
         else { pos.x = 0; }
@@ -141,7 +141,7 @@ public class CubeOrient {
 
     public Vector3 WorldPosition() {
         Vector3 vec = Vector3.zero;
-        float half = (SquareSize-1)/2.0f;
+        float half = (SquareSize - 1) / 2.0f;
         if (square == Square.Top) {
             vec.y = half + 1;
             vec.x = pos.x - half;
@@ -160,6 +160,16 @@ public class CubeOrient {
         if (square == Square.Front) {
             vec.z = -half - 1;
             vec.x = pos.x - half;
+            vec.y = pos.y - half;
+        }
+        if (square == Square.Left) {
+            vec.x = -half - 1;
+            vec.z = half - pos.x;
+            vec.y = pos.y - half;
+        }
+        if (square == Square.Right) {
+            vec.x = half + 1;
+            vec.z = pos.x - half;
             vec.y = pos.y - half;
         }
         return vec;

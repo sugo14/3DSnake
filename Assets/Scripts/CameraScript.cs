@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public GameObject snakeHead;
+    public GameObject snakeHead, cubePrefab;
+    public int minDist = 0, maxDist = 20;
+    public int cubeCount = 100, minSize = 1, maxSize = 5;
     public float distance = 10, camSpeed = 20;
     public bool firstPerson = false;
     public float speed = 10;
@@ -14,6 +16,17 @@ public class CameraScript : MonoBehaviour
     void Start()
     {
         currPos = new Vector3(0, 0, 0);
+        for (int i = 0; i < cubeCount; i++) {
+            GameObject instance = Instantiate(cubePrefab);
+            bool coinflip = Random.Range(0, 1) == 1;
+            instance.transform.position = new Vector3(
+                (Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist),
+                (Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist),
+                (Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist)
+            );
+            int scale = Random.Range(minSize, maxSize);
+            instance.transform.localScale = new Vector3(scale, scale, scale);
+        }
     }
 
     /* // Update is called once per frame

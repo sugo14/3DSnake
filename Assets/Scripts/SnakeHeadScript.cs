@@ -7,14 +7,12 @@ public class SnakeHeadScript : MonoBehaviour
     public CubeOrient orient;
     float timer;
 
-    // Start is called before the first frame update
     void Start()
     {
         timer = 0f;
         orient = new CubeOrient();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.W)) { orient.UpInput(); }
