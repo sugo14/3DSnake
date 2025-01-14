@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -462,7 +462,7 @@ MonoBehaviour:
   distance: 10
   rotationSpeed: 2
   moveSpeed: 2
-  foresight: 2
+  foresight: 3
 --- !u!1 &1333400585
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,6 +595,18 @@ PrefabInstance:
     - target: {fileID: 2505625981261034747, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
       propertyPath: m_Name
       value: Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261333954030234914, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261333954030234914, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261333954030234914, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7261333954030234914, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
       propertyPath: m_LocalPosition.x

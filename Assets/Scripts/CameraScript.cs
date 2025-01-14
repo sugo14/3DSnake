@@ -15,7 +15,6 @@ public class CameraScript : MonoBehaviour
         for (int i = 0; i < cubeCount; i++) {
             GameObject instance = Instantiate(cubePrefab);
             int x = Random.Range(0, 3);
-            bool coinflip = Random.Range(0, 1) == 1;
             instance.transform.position = new Vector3(
                 x == 0 ? ((Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist + 1)) : Random.Range(-maxDist, maxDist + 1),
                 x == 1 ? ((Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist + 1)) : Random.Range(-maxDist, maxDist + 1),
@@ -25,16 +24,6 @@ public class CameraScript : MonoBehaviour
             instance.transform.localScale = new Vector3(scale, scale, scale);
         }
     }
-
-    /* // Update is called once per frame
-    void LateUpdate()
-    {
-        Vector2 targetPos = snakeHead.GetComponent<SnakeHeadScript>().dir;
-        currPos = Vector3.Slerp(currPos, targetPos, 0.3f * Time.deltaTime * camSpeed);
-        gameObject.transform.position = snakeHead.transform.position + currPos * distance;
-        Transform t = gameObject.transform;
-        t.rotation = Quaternion.LookRotation(snakeHead.transform.position - t.position, Vector3.up);
-    } */
 
     void Update() {
         Transform t = gameObject.transform;
@@ -46,7 +35,7 @@ public class CameraScript : MonoBehaviour
         Vector3 futurePos = cubeOrient.WorldPosition();
         Vector3 desiredPos = futurePos + Vector3.ClampMagnitude(futurePos, 1) * distance;
         Quaternion desiredRot = Quaternion.LookRotation(Vector3.zero - desiredPos, snakeHead.GetComponent<SnakeHeadScript>().orient.SnakeUp());
-        transform.position = Vector3.Slerp(transform.position, desiredPos, moveSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRot, rotationSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, desiredPos, moveSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRot, rotationSpeed * Time.deltaTime);
     }
 }
