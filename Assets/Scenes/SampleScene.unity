@@ -462,7 +462,7 @@ MonoBehaviour:
   distance: 10
   rotationSpeed: 2
   moveSpeed: 2
-  foresight: 3
+  foresight: 0
 --- !u!1 &1333400585
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,15 +598,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7261333954030234914, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7261333954030234914, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7261333954030234914, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7261333954030234914, guid: 5a626aa99b38c214083f7996b0c1d4f4, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,5 +1,5 @@
 using System;
-using NUnit.Framework.Internal;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum Square {
@@ -7,7 +7,7 @@ public enum Square {
 };
 
 public class CubeOrient {
-    public static int SquareSize = 7;
+    public static int SquareSize = 6;
 
     public Square square;
     public Vector2Int pos;
@@ -22,32 +22,44 @@ public class CubeOrient {
     // performant way: hardcode? i mean really comparing isnt even that slow
     // for now i will just compare to find the up direction
 
-
     public CubeOrient() {
         square = Square.Left;
         pos = new Vector2Int(SquareSize/2, SquareSize/2);
         dir = new Vector2Int(1, 0);
     }
-    public CubeOrient(CubeOrient cubeOrient) {
-        square = cubeOrient.square;
-        pos = cubeOrient.pos;
-        dir = cubeOrient.dir;
+    public static CubeOrient Copy(CubeOrient cubeOrient) {
+        CubeOrient co = new CubeOrient();
+        co.square = cubeOrient.square;
+        co.pos = cubeOrient.pos;
+        co.dir = cubeOrient.dir;
+        co.upSquare = cubeOrient.upSquare;
+        co.goingInWorldUp = cubeOrient.goingInWorldUp;
+        return co;
     }
 
+    // Returns the direction of movement for the cube orient to move towards the world up.
     public Vector2Int WorldUp() {
-        Vector3 next = FacePosition(upSquare);
-        CubeOrient t1 = new CubeOrient(this), t2 = new CubeOrient(this), t3 = new CubeOrient(this), t4 = new CubeOrient(this);
-        t1.GoUp();
-        t2.GoDown();
-        t3.GoLeft();
-        t4.GoRight();
-        Vector3 u = t1.WorldPosition(), d = t2.WorldPosition(), l = t3.WorldPosition(), r = t4.WorldPosition();
-        float w = Vector3.Distance(u, FacePosition(upSquare)), x = Vector3.Distance(d, FacePosition(upSquare)), y = Vector3.Distance(l, FacePosition(upSquare)), z = Vector3.Distance(r, FacePosition(upSquare));
-        float min = Math.Min(w, Math.Min(x, Math.Min(y, z)));
-        if (min == z) { return Vector2Int.right; }
-        if (min == x) { return Vector2Int.down; }
-        if (min == y) { return Vector2Int.left; }
-        return Vector2Int.up;
+        // This is fully genuinely the worst code I have ever written in my life. May god forgive me
+        CubeOrient t1 = Copy(this);
+        CubeOrient t2 = Copy(this);
+        CubeOrient t3 = Copy(this);
+        CubeOrient t4 = Copy(this);
+        t1.dir = Vector2Int.up;
+        t2.dir = Vector2Int.down;
+        t3.dir = Vector2Int.left;
+        t4.dir = Vector2Int.right;
+        for (int i = 0; i < 1000; i++) {
+            t1.Go(false);
+            t2.Go(false);
+            t3.Go(false);
+            t4.Go(false);
+            if (t1.square == upSquare) { return Vector2Int.up; }
+            if (t2.square == upSquare) { return Vector2Int.down; }
+            if (t1.square == upSquare) { return Vector2Int.left; }
+            if (t4.square == upSquare) { return Vector2Int.right; }
+        }
+        Debug.Log("EVIL " + ToString());
+        return Vector2Int.zero;
     }
 
     // Transform a vector by 90 degrees to the left.
@@ -56,8 +68,6 @@ public class CubeOrient {
     }
     // Transform a vector by 90 degrees to the right.
     Vector2Int Right(Vector2Int vec) {
-        Debug.Log(vec);
-        Debug.Log("right");
         return new Vector2Int(vec.y, -vec.x);
     }
     // Transform a vector by 180 degrees.
@@ -121,14 +131,19 @@ public class CubeOrient {
         return square;
     }
 
-    public void Go() {
+    public void Go(bool check = true) {
         Square prev = square;
         if (dir == Vector2Int.up) { GoUp(); }
         else if (dir == Vector2Int.down) { GoDown(); }
         else if (dir == Vector2Int.left) { GoLeft(); }
         else if (dir == Vector2Int.right) { GoRight(); }
-        if (square != prev && goingInWorldUp) { upSquare = Next(); }
-        else if (square != prev && dir == -WorldUp()) { upSquare = prev; }
+        if (check) {
+            if (square != prev && goingInWorldUp) { upSquare = Next(); }
+            else if (square != prev && dir == -WorldUp()) { upSquare = prev; }
+            else if (square != prev) {
+                Debug.Log("LR " + prev.ToString() + "->" + square.ToString());
+            }
+        }
     }
 
     void GoUp() {
@@ -204,38 +219,43 @@ public class CubeOrient {
         square = ToRight();
     }
 
-    public Vector3 WorldPosition() {
+    public Vector3 WorldPosition(bool onlySide = false) {
         Vector3 vec = Vector3.zero;
         float half = (SquareSize - 1) / 2.0f;
+        Vector2 newPos = new Vector2(pos.x, pos.y);
+        if (onlySide) {
+            newPos.x = half;
+            newPos.y = half;
+        }
         if (square == Square.Top) {
             vec.y = half + 1;
-            vec.x = pos.x - half;
-            vec.z = pos.y - half;
+            vec.x = newPos.x - half;
+            vec.z = newPos.y - half;
         }
         if (square == Square.Bottom) {
             vec.y = -half - 1;
-            vec.x = pos.x - half;
-            vec.z = half - pos.y;
+            vec.x = newPos.x - half;
+            vec.z = half - newPos.y;
         }
         if (square == Square.Back) {
             vec.z = half + 1;
-            vec.x = pos.x - half;
-            vec.y = half - pos.y;
+            vec.x = newPos.x - half;
+            vec.y = half - newPos.y;
         }
         if (square == Square.Front) {
             vec.z = -half - 1;
-            vec.x = pos.x - half;
-            vec.y = pos.y - half;
+            vec.x = newPos.x - half;
+            vec.y = newPos.y - half;
         }
         if (square == Square.Left) {
             vec.x = -half - 1;
-            vec.z = half - pos.x;
-            vec.y = pos.y - half;
+            vec.z = half - newPos.x;
+            vec.y = newPos.y - half;
         }
         if (square == Square.Right) {
             vec.x = half + 1;
-            vec.z = pos.x - half;
-            vec.y = pos.y - half;
+            vec.z = newPos.x - half;
+            vec.y = newPos.y - half;
         }
         return vec;
     }
@@ -243,8 +263,7 @@ public class CubeOrient {
     public Vector3 FacePosition(Square face) {
         CubeOrient faceOrient = new CubeOrient();
         faceOrient.square = face;
-        faceOrient.pos = new Vector2Int(SquareSize / 2, SquareSize / 2);
-        return faceOrient.WorldPosition();
+        return faceOrient.WorldPosition(true);
     }
 
     public Vector3 SnakeUp() {
@@ -254,15 +273,15 @@ public class CubeOrient {
         /* return FacePosition(upSquare) - WorldPosition(); */
         // instantiate a cube at face position in the below line
         Vector3 facePos = FacePosition(upSquare);
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        GameObject instance = GameObject.Instantiate(cube, facePos, Quaternion.identity);
-        // delete the instantiated cube after one frame in the below line
-        GameObject.Destroy(instance, 0.016f);
         return facePos - WorldPosition();
+
+        /* CubeOrient co = new CubeOrient();
+        co.square = upSquare;
+        return co.WorldPosition(true) - WorldPosition(); */
     }
 
     public Vector3 WorldDirection() {
-        CubeOrient next = new CubeOrient(this);
+        CubeOrient next = Copy(this);
         next.Go();
         return next.WorldPosition() - WorldPosition();
     }

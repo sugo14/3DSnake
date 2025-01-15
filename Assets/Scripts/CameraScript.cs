@@ -28,8 +28,8 @@ public class CameraScript : MonoBehaviour
     void Update() {
         Transform t = gameObject.transform;
         CubeOrient cubeOrient = snakeHead.GetComponent<SnakeHeadScript>().orient;
+        cubeOrient = CubeOrient.Copy(cubeOrient);
         for (int i = 0; i < foresight; i++) {
-            cubeOrient = new CubeOrient(cubeOrient);
             cubeOrient.Go();
         }
         Vector3 futurePos = cubeOrient.WorldPosition();
