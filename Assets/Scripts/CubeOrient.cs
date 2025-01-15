@@ -273,6 +273,10 @@ public class CubeOrient {
         /* return FacePosition(upSquare) - WorldPosition(); */
         // instantiate a cube at face position in the below line
         Vector3 facePos = FacePosition(upSquare);
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        GameObject instance = GameObject.Instantiate(cube, facePos, Quaternion.identity);
+        // delete the instantiated cube after one frame in the below line
+        GameObject.Destroy(instance, 0.016f);
         return facePos - WorldPosition();
 
         /* CubeOrient co = new CubeOrient();
