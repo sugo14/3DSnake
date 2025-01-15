@@ -23,7 +23,7 @@ public class SnakeHeadScript : MonoBehaviour
         if (timer >= moveTime) {
             timer = 0;
             orient.Go();
-            Debug.Log(orient.ToString());
+            /* Debug.Log(orient.ToString()); */
             transform.position = orient.WorldPosition() * debugScale;
         }
     }
