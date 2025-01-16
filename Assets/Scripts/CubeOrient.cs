@@ -36,6 +36,10 @@ public class CubeOrient {
         co.goingInWorldUp = cubeOrient.goingInWorldUp;
         return co;
     }
+    public void RandomizePosition() {
+        square = (Square)UnityEngine.Random.Range(0, 6);
+        pos = new Vector2Int(UnityEngine.Random.Range(0, SquareSize), UnityEngine.Random.Range(0, SquareSize));
+    }
 
     // Returns the direction of movement for the cube orient to move towards the world up.
     public Vector2Int WorldUp() {
@@ -55,7 +59,7 @@ public class CubeOrient {
             t4.Go(false);
             if (t1.square == upSquare) { return Vector2Int.up; }
             if (t2.square == upSquare) { return Vector2Int.down; }
-            if (t1.square == upSquare) { return Vector2Int.left; }
+            if (t3.square == upSquare) { return Vector2Int.left; }
             if (t4.square == upSquare) { return Vector2Int.right; }
         }
         Debug.Log("EVIL " + ToString());
@@ -76,26 +80,30 @@ public class CubeOrient {
     }
 
     public void UpInput() {
-        {
-            dir = WorldUp();
+        Vector2Int newDir = WorldUp();
+        if (newDir != Opposite(dir)) {
+            dir = newDir;
             goingInWorldUp = true;
         }
     }
     public void DownInput() {
-        {
-            dir = Opposite(WorldUp());
+        Vector2Int newDir = Opposite(WorldUp());
+        if (newDir != Opposite(dir)) {
+            dir = newDir;
             goingInWorldUp = false;
         }
     }
     public void LeftInput() {
-        {
-            dir = Left(WorldUp());
+        Vector2Int newDir = Left(WorldUp());
+        if (newDir != Opposite(dir)) {
+            dir = newDir;
             goingInWorldUp = false;
         }
     }
     public void RightInput() {
-        {
-            dir = Right(WorldUp());
+        Vector2Int newDir = Right(WorldUp());
+        if (newDir != Opposite(dir)) {
+            dir = newDir;
             goingInWorldUp = false;
         }
     }
@@ -273,10 +281,6 @@ public class CubeOrient {
         /* return FacePosition(upSquare) - WorldPosition(); */
         // instantiate a cube at face position in the below line
         Vector3 facePos = FacePosition(upSquare);
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        GameObject instance = GameObject.Instantiate(cube, facePos, Quaternion.identity);
-        // delete the instantiated cube after one frame in the below line
-        GameObject.Destroy(instance, 0.016f);
         return facePos - WorldPosition();
 
         /* CubeOrient co = new CubeOrient();
