@@ -17,6 +17,7 @@ public class StateManagerScript : MonoBehaviour
 
     public GameObject snakeHead;
     public GameObject food;
+    public GameObject gold;
     public GameObject scoreText;
     public GameObject gameOverText;
     public GameObject pauseText;
@@ -70,6 +71,7 @@ public class StateManagerScript : MonoBehaviour
         if (currState == State.Game) {
             snakeHead.GetComponent<SnakeHeadScript>().Show();
             food.SetActive(true);
+            gold.SetActive(true);
             scoreText.SetActive(true);
             scoreText.GetComponent<TMP_Text>().text = snakeHead.GetComponent<SnakeHeadScript>().currLength.ToString();
             gameOverText.SetActive(false);
@@ -79,6 +81,7 @@ public class StateManagerScript : MonoBehaviour
         if (currState == State.GameOver) {
             snakeHead.GetComponent<SnakeHeadScript>().Hide();
             food.SetActive(false);
+            gold.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(true);
             pauseText.SetActive(false);
@@ -87,6 +90,7 @@ public class StateManagerScript : MonoBehaviour
         if (currState == State.Pause) {
             snakeHead.GetComponent<SnakeHeadScript>().Hide();
             food.SetActive(false);
+            gold.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(false);
             pauseText.SetActive(true);
@@ -95,6 +99,7 @@ public class StateManagerScript : MonoBehaviour
         if (currState == State.Menu) {
             snakeHead.GetComponent<SnakeHeadScript>().Hide();
             food.SetActive(false);
+            gold.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(false);
             pauseText.SetActive(false);

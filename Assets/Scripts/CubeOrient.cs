@@ -141,13 +141,15 @@ public class CubeOrient {
 
     public void Go(bool check = true) {
         Square prev = square;
+        Vector2Int prevDir = dir, prevWorldUp = Vector2Int.zero;
+        if (check) { prevWorldUp = WorldUp(); }
         if (dir == Vector2Int.up) { GoUp(); }
         else if (dir == Vector2Int.down) { GoDown(); }
         else if (dir == Vector2Int.left) { GoLeft(); }
         else if (dir == Vector2Int.right) { GoRight(); }
         if (check) {
-            if (square != prev && goingInWorldUp) { upSquare = Next(); }
-            else if (square != prev && dir == -WorldUp()) { upSquare = prev; }
+            if (square != prev && prevDir == prevWorldUp) { upSquare = Next(); }
+            else if (square != prev && prevDir == -prevWorldUp) { upSquare = prev; }
             else if (square != prev) {
                 Debug.Log("LR " + prev.ToString() + "->" + square.ToString());
             }

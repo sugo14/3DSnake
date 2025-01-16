@@ -15,7 +15,7 @@ public class SnakeHeadScript : MonoBehaviour
     public int currLength;
     public Queue<GameObject> snakeBody = new Queue<GameObject>();
 
-    public void Grow() { currLength += growLength; }
+    public void Grow(int points) { currLength += points; }
 
     public void Reset() {
         foreach (GameObject body in snakeBody) { Destroy(body); }
@@ -48,6 +48,7 @@ public class SnakeHeadScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D) && !Input.GetKeyDown(KeyCode.A)) { wantDir = Vector2Int.right; }
         if (Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S)) { wantDir = Vector2Int.up; }
         if (Input.GetKeyDown(KeyCode.S) && !Input.GetKeyDown(KeyCode.W)) { wantDir = Vector2Int.down; }
+        if (wantDir != Vector2Int.zero) { Debug.Log(orient.ToString()); }
         timer += Time.deltaTime;
         if (timer >= moveTime) {
             if (wantDir == Vector2Int.up) { orient.UpInput(); }

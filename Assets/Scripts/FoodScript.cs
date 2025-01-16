@@ -6,6 +6,7 @@ using UnityEngine;
 public class FoodScript : MonoBehaviour
 {
     public GameObject snakeHead;
+    public int points;
     CubeOrient cubeOrient;
 
     void Start()
@@ -28,7 +29,7 @@ public class FoodScript : MonoBehaviour
         if (transform.position == snakeHead.transform.position) {
             RandomizeOrient();
             transform.position = cubeOrient.WorldPosition();
-            snakeHead.GetComponent<SnakeHeadScript>().Grow();
+            snakeHead.GetComponent<SnakeHeadScript>().Grow(points);
         }
     }
 }
