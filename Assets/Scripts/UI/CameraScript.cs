@@ -9,13 +9,17 @@ public class CameraScript : MonoBehaviour
     public int cubeCount = 300, minSize = 1, maxSize = 9;
     public float distance = 10, rotationSpeed = 2, moveSpeed = 2, foresight = 2;
 
-    // Start is called before the first frame update
+    SnakeManager snakeManager;
+
     void Start()
     {
-        for (int i = 0; i < cubeCount; i++) {
+        snakeManager = snakeHead.GetComponent<SnakeManager>();
+        for (int i = 0; i < cubeCount; i++)
+        {
             GameObject instance = Instantiate(cubePrefab);
             int x = Random.Range(0, 3);
-            instance.transform.position = new Vector3(
+            instance.transform.position = new Vector3
+            (
                 x == 0 ? ((Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist + 1)) : Random.Range(-maxDist, maxDist + 1),
                 x == 1 ? ((Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist + 1)) : Random.Range(-maxDist, maxDist + 1),
                 x == 2 ? ((Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist + 1)) : Random.Range(-maxDist, maxDist + 1)
@@ -25,17 +29,21 @@ public class CameraScript : MonoBehaviour
         }
     }
 
-    void Update() {
+    void Update()
+    {
+        if (snakeManager == null) { snakeManager = snakeHead.GetComponent<SnakeManager>(); }
+
         Transform t = gameObject.transform;
-        CubeOrient cubeOrient = snakeHead.GetComponent<SnakeHeadScript>().orient;
+        CubeOrient cubeOrient = snakeManager.snakeMove.orient;
+
         cubeOrient = CubeOrient.Copy(cubeOrient);
-        for (int i = 0; i < foresight; i++) {
-            cubeOrient.Go();
-        }
+        for (int i = 0; i < foresight; i++) { cubeOrient.Go(); }
+
         Vector3 futurePos = cubeOrient.WorldPosition();
         Vector3 desiredPos = futurePos + Vector3.ClampMagnitude(futurePos, 1) * distance;
-        Quaternion desiredRot = Quaternion.LookRotation(Vector3.zero - desiredPos, snakeHead.GetComponent<SnakeHeadScript>().orient.SnakeUp());
-        transform.position = Vector3.Lerp(transform.position, desiredPos, moveSpeed * Time.deltaTime);
+        Quaternion desiredRot = Quaternion.LookRotation(Vector3.zero - desiredPos, snakeManager.snakeMove.orient.SnakeUp());
+
+        transform.position = Vector3.Slerp(transform.position, desiredPos, moveSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRot, rotationSpeed * Time.deltaTime);
     }
 }

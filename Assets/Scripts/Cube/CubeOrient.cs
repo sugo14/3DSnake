@@ -7,7 +7,7 @@ public enum Square {
 };
 
 public class CubeOrient {
-    public static int SquareSize = 6;
+    public static int SquareSize = 7;
 
     public Square square;
     public Vector2Int pos;

@@ -1,9 +1,27 @@
 using UnityEngine;
 
+public enum SideEffects {
+    Normal,
+    StopGrow,
+    StopShrink,
+    SpeedUp,
+    SlowDown,
+    DoublePoints,
+    HalfPoints
+}
+
 public class CubeScript : MonoBehaviour
 {
-    public GameObject top, bottom, left, right, front, back;
-    public int sideLength;
+    public SideEffects[] sideEffects = new SideEffects[6];
+
+    void Start() {
+        sideEffects[0] = SideEffects.SpeedUp;
+        sideEffects[1] = SideEffects.Normal;
+        sideEffects[2] = SideEffects.Normal;
+        sideEffects[3] = SideEffects.Normal;
+        sideEffects[4] = SideEffects.Normal;
+        sideEffects[5] = SideEffects.Normal;
+    }
 
     // Update is called once per frame
     void Update()

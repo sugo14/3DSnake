@@ -22,16 +22,20 @@ public class StateManagerScript : MonoBehaviour
     public GameObject gameOverText;
     public GameObject pauseText;
     public GameObject menuText;
+    public GameObject abilities;
+
+    SnakeManager snakeManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
         currState = State.Menu;
+        snakeManager = snakeHead.GetComponent<SnakeManager>();
     }
 
     void ResetGame() {
-        snakeHead.GetComponent<SnakeHeadScript>().Reset();
+        snakeManager.Reset();
         snakeHead.transform.position = Vector3.zero;
         food.GetComponent<FoodScript>().RandomizeOrient();
     }
@@ -45,9 +49,11 @@ public class StateManagerScript : MonoBehaviour
             }
         }
         else if (currState == State.Game) {
-            if (snakeHead.GetComponent<SnakeHeadScript>().snakeBody.ToArray().Any(
-                    x => x.transform.position == snakeHead.transform.position)) {
-                gameOverText.transform.GetChild(0).GetComponent<TMP_Text>().text = snakeHead.GetComponent<SnakeHeadScript>().currLength.ToString();
+            if (!snakeManager.snakeMove.isInvincible && 
+                snakeManager.snakeMove.snakeBody.ToArray().Any(
+                    x => x.transform.position == snakeHead.transform.position))
+            {
+                gameOverText.transform.GetChild(0).GetComponent<TMP_Text>().text = snakeManager.snakeMove.currLength.ToString();
                 currState = State.GameOver;
                 ResetGame();
             }
@@ -67,48 +73,58 @@ public class StateManagerScript : MonoBehaviour
         }
     }
 
-    void UpdateGame() {
-        if (currState == State.Game) {
-            snakeHead.GetComponent<SnakeHeadScript>().Show();
+    void UpdateGame()
+    {
+        if (currState == State.Game)
+        {
+            snakeManager.snakeMove.Show();
             food.SetActive(true);
             gold.SetActive(true);
             scoreText.SetActive(true);
-            scoreText.GetComponent<TMP_Text>().text = snakeHead.GetComponent<SnakeHeadScript>().currLength.ToString();
+            scoreText.GetComponent<TMP_Text>().text = snakeManager.snakeMove.currLength.ToString();
             gameOverText.SetActive(false);
             pauseText.SetActive(false);
             menuText.SetActive(false);
+            abilities.SetActive(true);
         }
-        if (currState == State.GameOver) {
-            snakeHead.GetComponent<SnakeHeadScript>().Hide();
+        if (currState == State.GameOver)
+        {
+            snakeManager.snakeMove.Hide();
             food.SetActive(false);
             gold.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(true);
             pauseText.SetActive(false);
             menuText.SetActive(false);
+            abilities.SetActive(false);
         }
-        if (currState == State.Pause) {
-            snakeHead.GetComponent<SnakeHeadScript>().Hide();
+        if (currState == State.Pause)
+        {
+            snakeManager.snakeMove.Hide();
             food.SetActive(false);
             gold.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(false);
             pauseText.SetActive(true);
             menuText.SetActive(false);
+            abilities.SetActive(false);
         }
-        if (currState == State.Menu) {
-            snakeHead.GetComponent<SnakeHeadScript>().Hide();
+        if (currState == State.Menu)
+        {
+            snakeManager.snakeMove.Hide();
             food.SetActive(false);
             gold.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(false);
             pauseText.SetActive(false);
             menuText.SetActive(true);
+            abilities.SetActive(false);
         }
     }
 
     void Update()
     {
+        if (snakeManager == null) { snakeManager = snakeHead.GetComponent<SnakeManager>(); }
         UpdateState();
         UpdateGame();
     }
