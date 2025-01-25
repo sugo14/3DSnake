@@ -10,12 +10,10 @@ public class Abilities : MonoBehaviour
     public KeyCode eKey = KeyCode.E;
 
     public SnakeManager snakeManager;
-    public Button qButton, eButton;
+    public GameObject qCube, eCube;
 
     public Ability qAbility, eAbility;
     bool wantsQ, wantsE;
-
-    List<Effect> currEffects = new List<Effect>();
 
     public void Reset()
     {
@@ -34,8 +32,16 @@ public class Abilities : MonoBehaviour
     {
         qAbility.OnTick(snakeManager);
         eAbility.OnTick(snakeManager);
-        if (wantsQ) { qAbility.TryApply(snakeManager); }
-        if (wantsE) { eAbility.TryApply(snakeManager); }
+        if (wantsQ && qAbility.Ready())
+        {
+            qAbility.TryApply(snakeManager);
+            qCube.GetComponent<AbilityCubeScript>().Activate();
+        }
+        if (wantsE && eAbility.Ready())
+        {
+            eAbility.TryApply(snakeManager);
+            eCube.GetComponent<AbilityCubeScript>().Activate();
+        }
         wantsQ = false;
         wantsE = false;
 
@@ -58,25 +64,26 @@ public class Abilities : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             Ability ability = i == 0 ? qAbility : eAbility;
-            Button button = i == 0 ? qButton : eButton;
+            GameObject cube = i == 0 ? qCube : eCube;
+            AbilityCubeScript abilityCubeScript = cube.GetComponent<AbilityCubeScript>();
 
             if (ability.appliedTimer > 0)
             {
-                button.GetComponentInChildren<TMP_Text>().text = ability.appliedTimer.ToString();
-                button.GetComponentsInChildren<Image>()[1].fillAmount = (float)(ability.Effect().turns - ability.appliedTimer) / ability.Effect().turns;
-                button.GetComponentsInChildren<Image>()[2].enabled = false;
+                abilityCubeScript.SetText(ability.appliedTimer.ToString());
+                abilityCubeScript.SetFillAmount((float)(ability.Effect().turns - ability.appliedTimer) / ability.Effect().turns);
+                abilityCubeScript.SetApplied(true);
             }
             else if (ability.applyTimer == 0)
             {
-                button.GetComponentInChildren<TMP_Text>().text = "";
-                button.GetComponentsInChildren<Image>()[1].fillAmount = 0;
-                button.GetComponentsInChildren<Image>()[2].enabled = false;
+                abilityCubeScript.SetText("");
+                abilityCubeScript.SetFillAmount(0);
+                abilityCubeScript.SetApplied(true);
             }
             else
             {
-                button.GetComponentInChildren<TMP_Text>().text = ability.applyTimer == 0 ? "" : ability.applyTimer.ToString();
-                button.GetComponentsInChildren<Image>()[1].fillAmount = (float)ability.applyTimer / ability.cooldown;
-                button.GetComponentsInChildren<Image>()[2].enabled = true;
+                abilityCubeScript.SetText(ability.applyTimer.ToString());
+                abilityCubeScript.SetFillAmount((float)ability.applyTimer / ability.cooldown);
+                abilityCubeScript.SetApplied(false);
             }
         }
     }

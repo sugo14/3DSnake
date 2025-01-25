@@ -19,7 +19,7 @@ public class CameraScript : MonoBehaviour
             GameObject instance = Instantiate(cubePrefab);
             int x = Random.Range(0, 3);
             instance.transform.position = new Vector3
-            (
+            ( // this is not a good random distribution
                 x == 0 ? ((Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist + 1)) : Random.Range(-maxDist, maxDist + 1),
                 x == 1 ? ((Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist + 1)) : Random.Range(-maxDist, maxDist + 1),
                 x == 2 ? ((Random.Range(0, 2) == 1 ? 1 : -1) * Random.Range(minDist, maxDist + 1)) : Random.Range(-maxDist, maxDist + 1)

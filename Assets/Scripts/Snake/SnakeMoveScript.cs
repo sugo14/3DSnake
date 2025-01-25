@@ -10,7 +10,6 @@ public class SnakeMove : MonoBehaviour
 
     public GameObject snakeBodyPrefab;
 
-    public bool isInvincible;
     public int currLength;
 
     public Queue<GameObject> snakeBody = new Queue<GameObject>();
@@ -26,7 +25,6 @@ public class SnakeMove : MonoBehaviour
         orient = new CubeOrient();
         transform.position = orient.WorldPosition();
         wantDir = Vector2Int.zero;
-        isInvincible = false;
     }
 
     void Start() { Reset(); }

@@ -11,7 +11,7 @@ public enum State {
     Pause
 }
 
-public class StateManagerScript : MonoBehaviour
+public class StateManager : MonoBehaviour
 {
     public State currState;
 
@@ -49,9 +49,7 @@ public class StateManagerScript : MonoBehaviour
             }
         }
         else if (currState == State.Game) {
-            if (!snakeManager.snakeMove.isInvincible && 
-                snakeManager.snakeMove.snakeBody.ToArray().Any(
-                    x => x.transform.position == snakeHead.transform.position))
+            if (snakeManager.IsDead())
             {
                 gameOverText.transform.GetChild(0).GetComponent<TMP_Text>().text = snakeManager.snakeMove.currLength.ToString();
                 currState = State.GameOver;

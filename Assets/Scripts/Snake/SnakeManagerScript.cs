@@ -1,11 +1,16 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+
 
 public class SnakeManager : MonoBehaviour
 {
     public SnakeMove snakeMove;
     public Abilities abilities;
+    public EffectManager effectManager;
 
     public float tickTime = 0.3f;
+    public int isInvincibleCnt = 0;
 
     float timer;
 
@@ -13,6 +18,7 @@ public class SnakeManager : MonoBehaviour
     {
         snakeMove.Reset();
         abilities.Reset();
+        isInvincibleCnt = 0;
     }
 
     void Start()
@@ -35,5 +41,14 @@ public class SnakeManager : MonoBehaviour
             OnTick();
             timer = 0f;
         }
+    }
+
+    public bool IsDead()
+    {
+        return effectManager.isInvincible == 0 && 
+               snakeMove.snakeBody.ToArray().Any
+               (
+                    x => x.transform.position == transform.position
+               );
     }
 }
