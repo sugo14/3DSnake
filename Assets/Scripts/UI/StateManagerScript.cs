@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Linq;
 
 public enum State {
     Menu,
@@ -16,12 +13,12 @@ public class StateManager : MonoBehaviour
     public State currState;
 
     public GameObject snakeHead;
-    public GameObject food;
-    public GameObject gold;
+    public GameObject foodManager;
     public GameObject scoreText;
     public GameObject gameOverText;
     public GameObject pauseText;
     public GameObject menuText;
+    public GameObject snakePreview;
     public GameObject abilities;
 
     SnakeManager snakeManager;
@@ -37,7 +34,7 @@ public class StateManager : MonoBehaviour
     void ResetGame() {
         snakeManager.Reset();
         snakeHead.transform.position = Vector3.zero;
-        food.GetComponent<FoodScript>().RandomizeOrient();
+        foodManager.GetComponent<FoodManager>().Reset();
     }
 
     // Update is called once per frame
@@ -45,6 +42,9 @@ public class StateManager : MonoBehaviour
     {
         if (currState == State.Menu) {
             if (Input.GetKeyDown(KeyCode.Space)) {
+                SnakePreview snakePreviewScript = snakePreview.GetComponent<SnakePreview>();
+                snakeManager.snakeSpecies.snakeSpecies = snakePreviewScript.speciesRegistry.speciesList[snakePreviewScript.currentSpeciesIndex];
+                snakeManager.Reset();
                 currState = State.Game;
             }
         }
@@ -76,8 +76,7 @@ public class StateManager : MonoBehaviour
         if (currState == State.Game)
         {
             snakeManager.snakeMove.Show();
-            food.SetActive(true);
-            gold.SetActive(true);
+            foodManager.SetActive(true);
             scoreText.SetActive(true);
             scoreText.GetComponent<TMP_Text>().text = snakeManager.snakeMove.currLength.ToString();
             gameOverText.SetActive(false);
@@ -88,8 +87,7 @@ public class StateManager : MonoBehaviour
         if (currState == State.GameOver)
         {
             snakeManager.snakeMove.Hide();
-            food.SetActive(false);
-            gold.SetActive(false);
+            foodManager.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(true);
             pauseText.SetActive(false);
@@ -99,8 +97,7 @@ public class StateManager : MonoBehaviour
         if (currState == State.Pause)
         {
             snakeManager.snakeMove.Hide();
-            food.SetActive(false);
-            gold.SetActive(false);
+            foodManager.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(false);
             pauseText.SetActive(true);
@@ -110,8 +107,7 @@ public class StateManager : MonoBehaviour
         if (currState == State.Menu)
         {
             snakeManager.snakeMove.Hide();
-            food.SetActive(false);
-            gold.SetActive(false);
+            foodManager.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(false);
             pauseText.SetActive(false);

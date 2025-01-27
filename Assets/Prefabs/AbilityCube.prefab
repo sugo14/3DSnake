@@ -52,7 +52,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeChange: 0.07
   sizeSpeed: 4
-  rotationSpeed: 0.1
+  rotationDur: 0.175
+  sprite: {fileID: 0}
 --- !u!1001 &313821167971504534
 PrefabInstance:
   m_ObjectHideFlags: 0

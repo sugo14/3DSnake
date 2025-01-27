@@ -1,59 +1,158 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Ability : ScriptableObject
+public abstract class Ability
 {
-    public abstract int cooldown { get; }
-    public int applyTimer, appliedTimer;
+    public string abilityName { get; }
+    public string description { get; }
+    public string spritePath { get; }
+    public int cooldown { get; }
 
-    public Ability() { applyTimer = cooldown; }
-
-    public abstract Effect Effect();
-
-    public bool Ready() { return applyTimer == 0; }
-    public bool Finished() { return appliedTimer == 0; }
-
-    public void OnTick(SnakeManager snakeManager)
+    protected Ability(string abilityName, string description, string spriteFileName, int cooldown)
     {
-        if (appliedTimer > 0)
+        this.abilityName = abilityName;
+        this.description = description;
+        spritePath = $"AbilityIcons/{spriteFileName}";
+        this.cooldown = cooldown;
+    }
+
+    public abstract List<Effect> Effect(SnakeManager snakeManager);
+
+    public int GetDuration(SnakeManager snakeManager)
+    {
+        List<Effect> effects = Effect(snakeManager);
+        int duration = 0;
+        foreach (Effect effect in effects)
         {
-            appliedTimer--;
-            if (Finished()) { Remove(snakeManager); }
+            if (effect.turns > duration) { duration = effect.turns; }
         }
-        else if (applyTimer > 0) { applyTimer--; }
+        return duration;
     }
 
-    public void TryApply(SnakeManager snakeManager)
+    public AbilityInstance Instantiate()
     {
-        if (Ready()) { Apply(snakeManager); }
+        return new AbilityInstance(this);
     }
-
-    void Apply(SnakeManager snakeManager)
-    {
-        applyTimer = cooldown;
-        appliedTimer = Effect().turns;
-        Effect().Apply(snakeManager);
-    }
-    void Remove(SnakeManager snakeManager) { Effect().Remove(snakeManager); }
 }
 
-[CreateAssetMenu(fileName = "FreezeFrame", menuName = "Abilities/FreezeFrame")]
 public class FreezeFrame : Ability
 {
-    [SerializeField]
-    private int _cooldown = 20;
+    public FreezeFrame() : base
+    (
+        "Freeze Frame",
+        "Slow time to 0.4x speed",
+        "Clock-Sprite",
+        20
+    ) { }
 
-    public override int cooldown => _cooldown;
-
-    public override Effect Effect() => new SpeedChange(4, 0.4f);
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new SpeedChange(4, 0.4f)}; }
 }
 
-[CreateAssetMenu(fileName = "Ghost", menuName = "Abilities/Ghost")]
 public class Ghost : Ability
 {
-    [SerializeField]
-    private int _cooldown = 40;
+    public Ghost() : base
+    (
+        "Ghost",
+        "Invincible to self crashes",
+        "Ghost-Sprite",
+        40
+    ) { }
 
-    public override int cooldown => _cooldown;
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new Invincibility(3)}; }
+}
 
-    public override Effect Effect() => new Invincible(3);
+public class Hourglass : Ability
+{
+    public Hourglass() : base
+    (
+        "Hourglass",
+        "Use your other ability",
+        "Hourglass-Sprite",
+        60
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager) {
+        Ability otherAbility = snakeManager.abilities.qAbility;
+        if (otherAbility == this || otherAbility == null) { otherAbility = snakeManager.abilities.eAbility; }
+        if (otherAbility == this || otherAbility == null) { return new List<Effect>(); }
+        return otherAbility.Effect(snakeManager);
+    }
+}
+
+public class Snip : Ability
+{
+    public Snip() : base
+    (
+        "Snip",
+        "Reduce length by 15 temporarily",
+        "Length-Reduce-Sprite",
+        30
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new ReduceLength(15)}; }
+}
+
+public class Teleport : Ability
+{
+    public Teleport() : base
+    (
+        "Teleport",
+        "Instantly move 4 spaces forward",
+        "Teleport-Sprite",
+        40
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new MoveForward(4)}; }
+}
+
+public class Bomb : Ability
+{
+    public Bomb() : base
+    (
+        "Bomb",
+        "Reduce length by 30 temporarily and score by 10",
+        "Bomb-Sprite",
+        60
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new ReduceLength(30), new RemoveScore(10)}; }
+}
+
+public class LineCollect : Ability
+{
+    public LineCollect() : base
+    (
+        "Line Collect",
+        "Collect all food in a line in front of you",
+        "Arrow-Sprite",
+        10
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new CollectFoodInLine()}; }
+}
+
+public class FaceCollect : Ability
+{
+    public FaceCollect() : base
+    (
+        "Face Collect",
+        "Collect all food on your current cube face",
+        "Face-Sprite",
+        15
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new CollectFoodOnFace()}; }
+}
+
+public class Retract : Ability
+{
+    public Retract() : base
+    (
+        "Retract",
+        "Move back 7 spaces",
+        "Retract-Sprite",
+        30
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new Reverse(7)}; }
 }

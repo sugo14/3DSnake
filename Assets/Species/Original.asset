@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8a3cc447743cd4ebb5a7c440dba0da, type: 3}
+  m_Name: Original
+  m_EditorClassIdentifier: 
+  speciesName: Original
+  qAbilityName: 
+  eAbilityName: 
+  headMaterial: {fileID: 2100000, guid: 96cdf9d55e2c7b54ba4e4eb52201fc55, type: 2}
+  bodyMaterials:
+  - {fileID: 2100000, guid: 6d93744b1b9fb2a439e4ce8aee78175e, type: 2}
+  - {fileID: 2100000, guid: 9ba82a1f6906aeb4488ca5a4b9e1853b, type: 2}

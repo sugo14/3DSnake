@@ -5,20 +5,19 @@ using TMPro;
 
 public class AbilityCubeScript : MonoBehaviour
 {
-    public float sizeChange = 0.1f, sizeSpeed = 4, rotationSpeed = 1;
-    public Sprite sprite;
+    public float sizeChange = 0.1f, sizeSpeed = 4, rotationDur = 0.2f;
 
     bool applied = true;
 
     float currRotation = 0;
     bool isRotating = false;
+    float rotationSpeed = 0;
 
     void Start()
     {
         SetFillAmount(1);
         SetApplied(true);
         SetText("");
-        SetSprite();
     }
 
     public void SetFillAmount(float amount)
@@ -26,7 +25,6 @@ public class AbilityCubeScript : MonoBehaviour
         int deg = 360 - (int)(amount * 360);
         for (int i = 0; i < 6; i++)
         {
-            // set arc point 2 of material to deg
             transform.GetChild(i).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material.SetFloat("_Arc2", deg);
         }
     }
@@ -48,12 +46,20 @@ public class AbilityCubeScript : MonoBehaviour
         }
     }
 
-    public void SetSprite()
+    public void SetSprite(Sprite sprite)
     {
         for (int i = 0; i < 6; i++)
         {
             transform.GetChild(i).gameObject.transform.GetChild(3).GetComponent<SpriteRenderer>().sprite = sprite;
             transform.GetChild(i).gameObject.transform.GetChild(3).GetComponent<AutoResizeSprite>().Resize();
+        }
+    }
+
+    public void SetColor(Color color)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            transform.GetChild(i).gameObject.transform.GetChild(3).GetComponent<SpriteRenderer>().color = color;
         }
     }
 
@@ -73,7 +79,7 @@ public class AbilityCubeScript : MonoBehaviour
 
         if (isRotating)
         {
-            currRotation = Mathf.SmoothDamp(currRotation, 360, ref rotationSpeed, 0.3f);
+            currRotation = Mathf.SmoothDamp(currRotation, 360, ref rotationSpeed, rotationDur);
             transform.rotation = Quaternion.Euler(currRotation, 0, 0);
             if (currRotation > 359)
             {

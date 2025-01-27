@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8a3cc447743cd4ebb5a7c440dba0da, type: 3}
+  m_Name: IceSnake
+  m_EditorClassIdentifier: 
+  speciesName: Icicle
+  qAbilityName: Freeze Frame
+  eAbilityName: 
+  headMaterial: {fileID: 2100000, guid: 1a4ac5893c1ae7b44a313fc1f26c4895, type: 2}
+  bodyMaterials:
+  - {fileID: 2100000, guid: aac74e632bcc4e7478b4ebc97c6a79d8, type: 2}
+  - {fileID: 2100000, guid: f387d61150e3bf04f8ea2976a90a73f5, type: 2}

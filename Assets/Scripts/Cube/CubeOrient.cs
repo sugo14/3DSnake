@@ -15,12 +15,6 @@ public class CubeOrient {
 
     public Square upSquare;
     bool goingInWorldUp;
-    // so what i'm storing as the context of the world up direction is the up square
-    // this means i have to make the up direction pressed the direction that leads to the up square
-    // there are both funny ways and good ways to do this
-    // funny way: compare all directions and their displacement from the up cube
-    // performant way: hardcode? i mean really comparing isnt even that slow
-    // for now i will just compare to find the up direction
 
     public CubeOrient() {
         square = Square.Left;
@@ -150,9 +144,6 @@ public class CubeOrient {
         if (check) {
             if (square != prev && prevDir == prevWorldUp) { upSquare = Next(); }
             else if (square != prev && prevDir == -prevWorldUp) { upSquare = prev; }
-            else if (square != prev) {
-                Debug.Log("LR " + prev.ToString() + "->" + square.ToString());
-            }
         }
     }
 
@@ -277,23 +268,8 @@ public class CubeOrient {
     }
 
     public Vector3 SnakeUp() {
-        /* CubeOrient next = new CubeOrient(this);
-        next.GoUp();
-        return next.WorldPosition() - WorldPosition(); */
-        /* return FacePosition(upSquare) - WorldPosition(); */
-        // instantiate a cube at face position in the below line
         Vector3 facePos = FacePosition(upSquare);
         return facePos - WorldPosition();
-
-        /* CubeOrient co = new CubeOrient();
-        co.square = upSquare;
-        return co.WorldPosition(true) - WorldPosition(); */
-    }
-
-    public Vector3 WorldDirection() {
-        CubeOrient next = Copy(this);
-        next.Go();
-        return next.WorldPosition() - WorldPosition();
     }
 
     public override string ToString()
