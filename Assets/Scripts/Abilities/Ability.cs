@@ -42,7 +42,7 @@ public class FreezeFrame : Ability
         "Freeze Frame",
         "Slow time to 0.4x speed",
         "Clock-Sprite",
-        20
+        15
     ) { }
 
     public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new SpeedChange(4, 0.4f)}; }
@@ -53,7 +53,7 @@ public class Ghost : Ability
     public Ghost() : base
     (
         "Ghost",
-        "Invincible to self crashes",
+        "Provides invincibility to crashes into the body for 3 turns.",
         "Ghost-Sprite",
         40
     ) { }
@@ -66,7 +66,7 @@ public class Hourglass : Ability
     public Hourglass() : base
     (
         "Hourglass",
-        "Use your other ability",
+        "Copies your other equipped ability, or none if no other ability is equipped.",
         "Hourglass-Sprite",
         60
     ) { }
@@ -84,7 +84,7 @@ public class Snip : Ability
     public Snip() : base
     (
         "Snip",
-        "Reduce length by 15 temporarily",
+        "Temporarily reduces the snake's length by 15, slowly growing back.",
         "Length-Reduce-Sprite",
         30
     ) { }
@@ -97,7 +97,7 @@ public class Teleport : Ability
     public Teleport() : base
     (
         "Teleport",
-        "Instantly move 4 spaces forward",
+        "Instantly moves the snake head 4 spaces forward, leaving part of the body behind.",
         "Teleport-Sprite",
         40
     ) { }
@@ -110,7 +110,7 @@ public class Bomb : Ability
     public Bomb() : base
     (
         "Bomb",
-        "Reduce length by 30 temporarily and score by 10",
+        "Reduces score by 10. Temporarily reduces length by 30, slowly growing back.",
         "Bomb-Sprite",
         60
     ) { }
@@ -123,7 +123,7 @@ public class LineCollect : Ability
     public LineCollect() : base
     (
         "Line Collect",
-        "Collect all food in a line in front of you",
+        "Collects all of the food in a line in front of the snake head, wrapping around the cube.",
         "Arrow-Sprite",
         10
     ) { }
@@ -136,7 +136,7 @@ public class FaceCollect : Ability
     public FaceCollect() : base
     (
         "Face Collect",
-        "Collect all food on your current cube face",
+        "Collects all of the food on the same face of the cube as the snake head.",
         "Face-Sprite",
         15
     ) { }
@@ -149,10 +149,10 @@ public class Retract : Ability
     public Retract() : base
     (
         "Retract",
-        "Move back 7 spaces",
+        "The snake head retracts into the body by 7 spaces, slowly growing back.",
         "Retract-Sprite",
         30
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new Reverse(7)}; }
+    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new Reverse(7), new SpeedChange(2, 0.4f)}; }
 }

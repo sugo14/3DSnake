@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8a3cc447743cd4ebb5a7c440dba0da, type: 3}
-  m_Name: TeleSnake
+  m_Name: RetreatSnake
   m_EditorClassIdentifier: 
-  speciesName: Aether
-  qAbilityName: Teleport
+  speciesName: Dodger
+  qAbilityName: Retract
   eAbilityName: 
-  headMaterial: {fileID: 2100000, guid: 069410183b06748458efab8805766383, type: 2}
+  headMaterial: {fileID: 2100000, guid: b350496f49b6bc44d960d17ec9703f6e, type: 2}
   bodyMaterials:
-  - {fileID: 2100000, guid: 71718f75d6fdbfc44a55c2256771f0b1, type: 2}
-  - {fileID: 2100000, guid: ca28eb697f9c07b4b93677fc510539f2, type: 2}
+  - {fileID: 2100000, guid: 67b08b2f6f3bf5c48975b1f3a0d1f37e, type: 2}
+  - {fileID: 2100000, guid: e12166c00538da54b8b0a04f59c6d190, type: 2}
   intermediaryMaterials:
-  - {fileID: 2100000, guid: 71718f75d6fdbfc44a55c2256771f0b1, type: 2}
-  - {fileID: 2100000, guid: ca28eb697f9c07b4b93677fc510539f2, type: 2}
+  - {fileID: 2100000, guid: b350496f49b6bc44d960d17ec9703f6e, type: 2}

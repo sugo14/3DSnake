@@ -11,4 +11,5 @@ public class Species : ScriptableObject
     public string eAbilityName;
     public Material headMaterial;
     public List<Material> bodyMaterials;
+    public List<Material> intermediaryMaterials;
 }

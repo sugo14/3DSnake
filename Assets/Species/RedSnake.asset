@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8a3cc447743cd4ebb5a7c440dba0da, type: 3}
   m_Name: RedSnake
   m_EditorClassIdentifier: 
-  speciesName: Adder
+  speciesName: Cinder
   qAbilityName: Bomb
   eAbilityName: 
-  headMaterial: {fileID: 2100000, guid: ab467b69de949014483d0e2a3e89ed4c, type: 2}
+  headMaterial: {fileID: 2100000, guid: 0787b15ad34938f42909dbfc2b9ba216, type: 2}
   bodyMaterials:
-  - {fileID: 2100000, guid: 0787b15ad34938f42909dbfc2b9ba216, type: 2}
-  - {fileID: 2100000, guid: 420d5914674fd6d45b5cdc83b2217963, type: 2}
   - {fileID: 2100000, guid: 6545da202b4a17b4d836f9b095ccbfd9, type: 2}
+  - {fileID: 2100000, guid: 172f87a7355cb6c42ae56c1db4ca2faa, type: 2}
+  intermediaryMaterials:
+  - {fileID: 2100000, guid: 6545da202b4a17b4d836f9b095ccbfd9, type: 2}
+  - {fileID: 2100000, guid: 172f87a7355cb6c42ae56c1db4ca2faa, type: 2}

@@ -83,6 +83,7 @@ public class Abilities : MonoBehaviour
         {
             wantsE = true;
         }
+        UpdateButtons();
     }
 
     void UpdateButtons() {

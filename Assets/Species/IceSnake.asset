@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8a3cc447743cd4ebb5a7c440dba0da, type: 3}
   m_Name: IceSnake
   m_EditorClassIdentifier: 
-  speciesName: Icicle
+  speciesName: Frostbite
   qAbilityName: Freeze Frame
   eAbilityName: 
   headMaterial: {fileID: 2100000, guid: 1a4ac5893c1ae7b44a313fc1f26c4895, type: 2}
   bodyMaterials:
+  - {fileID: 2100000, guid: aac74e632bcc4e7478b4ebc97c6a79d8, type: 2}
+  - {fileID: 2100000, guid: f387d61150e3bf04f8ea2976a90a73f5, type: 2}
+  intermediaryMaterials:
   - {fileID: 2100000, guid: aac74e632bcc4e7478b4ebc97c6a79d8, type: 2}
   - {fileID: 2100000, guid: f387d61150e3bf04f8ea2976a90a73f5, type: 2}

@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
 public class FoodScript : MonoBehaviour
 {
     public GameObject snakeHead;
+    public GameObject foodManager;
     public CubeOrient cubeOrient;
     
     public int points;
@@ -31,7 +33,8 @@ public class FoodScript : MonoBehaviour
     {
         RandomizeOrient();
         transform.position = cubeOrient.WorldPosition();
-        snakeManager.snakeMove.Grow(points);
+        FoodManager fm = foodManager.GetComponent<FoodManager>();
+        snakeManager.snakeMove.Grow((int)Math.Ceiling(fm.foodMult * points + fm.foodAdd));
     }
 
     void Update()
@@ -39,5 +42,7 @@ public class FoodScript : MonoBehaviour
         if (snakeManager == null) { snakeManager = snakeHead.GetComponent<SnakeManager>(); }
         
         if (transform.position == snakeHead.transform.position) { Collect(); }
+        float scale = Mathf.Sin(Time.time * 5) * 0.1f + 0.7f;
+        transform.localScale = new Vector3(scale, scale, scale);
     }
 }

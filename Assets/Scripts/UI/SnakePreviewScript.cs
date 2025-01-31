@@ -7,11 +7,10 @@ public class SnakePreview : MonoBehaviour
 {
     public GameObject snakePreview;
     public TMP_Text speciesNameText;
-    public TMP_Text speciesDescriptionText;
 
     public SpeciesRegistry speciesRegistry;
 
-    public float rotateSpeed = 0.2f;
+    public float rotateSpeed = 20;
 
     public int currentSpeciesIndex = 0;
 
@@ -25,12 +24,11 @@ public class SnakePreview : MonoBehaviour
         snakePreview.GetComponent<MeshRenderer>().material = speciesRegistry.speciesList[currentSpeciesIndex].bodyMaterials[0];
         speciesNameText.text = speciesRegistry.speciesList[currentSpeciesIndex].speciesName;
         Ability ability = AbilityRegistry.GetAbility(speciesRegistry.speciesList[currentSpeciesIndex].qAbilityName);
-        speciesDescriptionText.text = ability == null ? "No ability." : ability.description;
     }
 
     void Update()
     {
-        snakePreview.transform.Rotate(0, rotateSpeed, 0);
+        snakePreview.transform.Rotate(0, rotateSpeed * Time.deltaTime, 0);
 
         if (Input.GetKeyDown(KeyCode.A))
         {

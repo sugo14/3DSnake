@@ -18,6 +18,7 @@ public class SnakeMove : MonoBehaviour
 
     // the most recent body is at the front of the list
     public List<GameObject> snakeBody = new List<GameObject>();
+    public List<GameObject> intermediaryCubes = new List<GameObject>();
     public CubeOrient orient;
 
     Vector2Int wantDir;
@@ -26,7 +27,9 @@ public class SnakeMove : MonoBehaviour
     public void Reset()
     {
         foreach (GameObject body in snakeBody) { Destroy(body); }
+        foreach (GameObject cube in intermediaryCubes) { Destroy(cube); }
         snakeBody.Clear();
+        intermediaryCubes.Clear();
         currLength = 1;
         orient = new CubeOrient();
         transform.position = orient.WorldPosition();
@@ -49,7 +52,7 @@ public class SnakeMove : MonoBehaviour
         wantDir = Vector2Int.zero;
 
         GameObject newBody = Instantiate(snakeBodyPrefab, transform.position, Quaternion.identity);
-        newBody.GetComponent<MeshRenderer>().material = manager.snakeSpecies.snakeSpecies.bodyMaterials[idx++ % manager.snakeSpecies.snakeSpecies.bodyMaterials.Count];
+        newBody.GetComponent<MeshRenderer>().material = manager.snakeSpecies.snakeSpecies.bodyMaterials[idx % manager.snakeSpecies.snakeSpecies.bodyMaterials.Count];
         newBody.GetComponent<SnakeBody>().cubeOrient = CubeOrient.Copy(orient);
         snakeBody.Insert(0, newBody);
         while (snakeBody.Count > Math.Max(currLength + lengthMod, 0))
@@ -60,6 +63,35 @@ public class SnakeMove : MonoBehaviour
         }
         orient.Go();
         transform.position = orient.WorldPosition();
+
+        if (snakeBody.Count > 0)
+        {
+            // create intermediary cube
+            GameObject cube = Instantiate(snakeBodyPrefab, transform.position, Quaternion.identity);
+            cube.GetComponent<MeshRenderer>().material = manager.snakeSpecies.snakeSpecies.intermediaryMaterials[idx % manager.snakeSpecies.snakeSpecies.intermediaryMaterials.Count];
+            if (Vector3.Distance(transform.position, snakeBody[0].transform.position) >= 1.5f)
+            {
+                // hide cube
+                cube.SetActive(false);
+            }
+            else
+            {
+                // between both objects
+                cube.transform.position = (cube.transform.position + snakeBody[0].transform.position) / 2;
+                // set scale slightly smaller to avoid z-fighting
+                cube.transform.localScale = new Vector3(0.749f, 0.749f, 0.749f);
+            }
+            intermediaryCubes.Insert(0, cube);
+        }
+
+        while (intermediaryCubes.Count > Math.Max(currLength + lengthMod, 0))
+        {
+            GameObject lastBody = intermediaryCubes[intermediaryCubes.Count - 1];
+            intermediaryCubes.RemoveAt(intermediaryCubes.Count - 1);
+            Destroy(lastBody);
+        }
+
+        idx++;
     }
 
     void Update()
@@ -75,11 +107,13 @@ public class SnakeMove : MonoBehaviour
     public void Hide()
     {
         foreach (GameObject body in snakeBody) { body.SetActive(false); }
+        foreach (GameObject cube in intermediaryCubes) { cube.SetActive(false); }
         gameObject.SetActive(false);
     }
     public void Show()
     {
         foreach (GameObject body in snakeBody) { body.SetActive(true); }
+        foreach (GameObject cube in intermediaryCubes) { cube.SetActive(true); }
         gameObject.SetActive(true);
     }
 }

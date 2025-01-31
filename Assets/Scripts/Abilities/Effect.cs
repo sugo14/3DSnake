@@ -1,23 +1,23 @@
 using System;
 using UnityEngine;
 
-public abstract class Effect {
+public class Effect : UntimedEffect
+{
     public int turns;
 
     public Effect(int turns) { this.turns = turns; }
 
-    public virtual void OnTick() { turns--; }
-    public virtual bool WantsToDetach() { return turns <= 0; }
-
-    public virtual void Apply(SnakeManager snakeManager) { }
-    public virtual void Remove(SnakeManager snakeManager) { }
+    public override void OnTick() { turns--; }
+    public override bool WantsToDetach() { return turns <= 0; }
 }
 
-public class None : Effect {
+public class None : Effect
+{
     public None() : base(0) { }
 }
 
-public class SpeedChange : Effect {
+public class SpeedChange : Effect
+{
     public float speedMultiplier;
 
     public SpeedChange(int turns, float speedMultiplier) : base(turns)
@@ -29,14 +29,16 @@ public class SpeedChange : Effect {
     public override void Remove(SnakeManager snakeManager) { snakeManager.tickTime *= speedMultiplier; }
 }
 
-public class Invincibility : Effect {
+public class Invincibility : Effect
+{
     public Invincibility(int turns) : base(turns) { }
 
     public override void Apply(SnakeManager snakeManager) { snakeManager.effectManager.isInvincible++; }
     public override void Remove(SnakeManager snakeManager) { snakeManager.effectManager.isInvincible--; }
 }
 
-public class ReduceLength : Effect {
+public class ReduceLength : Effect
+{
     public int length;
 
     public ReduceLength(int length) : base(1)
@@ -48,7 +50,8 @@ public class ReduceLength : Effect {
     public override void Remove(SnakeManager snakeManager) { snakeManager.snakeMove.lengthMod += length; }
 }
 
-public class MoveForward : Effect {
+public class MoveForward : Effect
+{
     public int dist;
 
     public MoveForward(int dist) : base(1)
@@ -145,9 +148,13 @@ public class Reverse : Effect
         if (snakeManager.snakeMove.snakeBody.Count == 0) { return; }
         for (int i = 0; i < depth; i++)
         {
+            if (snakeManager.snakeMove.snakeBody.Count == 1) { break; }
             GameObject lastBody = snakeManager.snakeMove.snakeBody[0];
             snakeManager.snakeMove.snakeBody.RemoveAt(0);
             GameObject.Destroy(lastBody);
+            GameObject lastCube = snakeManager.snakeMove.intermediaryCubes[0];
+            snakeManager.snakeMove.intermediaryCubes.RemoveAt(0);
+            GameObject.Destroy(lastCube);
         }
         GameObject mostRecent = snakeManager.snakeMove.snakeBody[0];
         snakeManager.snakeMove.orient = CubeOrient.Copy(mostRecent.GetComponent<SnakeBody>().cubeOrient);

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8a3cc447743cd4ebb5a7c440dba0da, type: 3}
   m_Name: GhostSnake
   m_EditorClassIdentifier: 
-  speciesName: Whitewalker
+  speciesName: Specter
   qAbilityName: Ghost
   eAbilityName: 
   headMaterial: {fileID: 2100000, guid: 7fad2857aa598f34d9e15917fd3899fd, type: 2}
   bodyMaterials:
   - {fileID: 2100000, guid: 23b3cda068116204f899ce406802fee7, type: 2}
-  - {fileID: 2100000, guid: 10160ad3c02227d4880a9694b56d8e7d, type: 2}
+  intermediaryMaterials:
+  - {fileID: 2100000, guid: 23b3cda068116204f899ce406802fee7, type: 2}
