@@ -15,8 +15,8 @@ MonoBehaviour:
   speciesName: Original
   qAbilityName: 
   eAbilityName: 
-  headMaterial: {fileID: 2100000, guid: 96cdf9d55e2c7b54ba4e4eb52201fc55, type: 2}
+  headMaterial: {r: 0.0018873755, g: 0.754717, b: 0, a: 1}
   bodyMaterials:
-  - {fileID: 2100000, guid: 96cdf9d55e2c7b54ba4e4eb52201fc55, type: 2}
+  - {r: -Infinity, g: 0.7529412, b: -Infinity, a: 1}
   intermediaryMaterials:
-  - {fileID: 2100000, guid: 96cdf9d55e2c7b54ba4e4eb52201fc55, type: 2}
+  - {r: -Infinity, g: 0.7529412, b: -Infinity, a: 1}

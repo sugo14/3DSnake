@@ -15,10 +15,9 @@ MonoBehaviour:
   speciesName: Aether
   qAbilityName: Teleport
   eAbilityName: 
-  headMaterial: {fileID: 2100000, guid: 069410183b06748458efab8805766383, type: 2}
+  headMaterial: {r: 0.6981132, g: 0.18111429, b: 0.6858038, a: 1}
   bodyMaterials:
-  - {fileID: 2100000, guid: 71718f75d6fdbfc44a55c2256771f0b1, type: 2}
-  - {fileID: 2100000, guid: ca28eb697f9c07b4b93677fc510539f2, type: 2}
+  - {r: 0.440199, g: 0.14542542, b: 0.7169812, a: 1}
+  - {r: 0.22872207, g: 0.11454255, b: 0.6226415, a: 2.6308398e+20}
   intermediaryMaterials:
-  - {fileID: 2100000, guid: 71718f75d6fdbfc44a55c2256771f0b1, type: 2}
-  - {fileID: 2100000, guid: ca28eb697f9c07b4b93677fc510539f2, type: 2}
+  - {r: 0.69803923, g: 0.18039216, b: 0.6862745, a: 1}

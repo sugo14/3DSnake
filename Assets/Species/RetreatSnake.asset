@@ -15,9 +15,9 @@ MonoBehaviour:
   speciesName: Dodger
   qAbilityName: Retract
   eAbilityName: 
-  headMaterial: {fileID: 2100000, guid: b350496f49b6bc44d960d17ec9703f6e, type: 2}
+  headMaterial: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}
   bodyMaterials:
-  - {fileID: 2100000, guid: 67b08b2f6f3bf5c48975b1f3a0d1f37e, type: 2}
-  - {fileID: 2100000, guid: e12166c00538da54b8b0a04f59c6d190, type: 2}
+  - {r: 0.20784314, g: 0.34117648, b: 0.19215687, a: 1}
+  - {r: 0.49411765, g: 0.59607846, b: 0, a: 2.6308398e+20}
   intermediaryMaterials:
-  - {fileID: 2100000, guid: b350496f49b6bc44d960d17ec9703f6e, type: 2}
+  - {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}

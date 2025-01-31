@@ -9,7 +9,7 @@ public class Species : ScriptableObject
     public string speciesName;
     public string qAbilityName;
     public string eAbilityName;
-    public Material headMaterial;
-    public List<Material> bodyMaterials;
-    public List<Material> intermediaryMaterials;
+    public Color headMaterial;
+    public List<Color> bodyMaterials;
+    public List<Color> intermediaryMaterials;
 }

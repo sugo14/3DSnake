@@ -15,8 +15,9 @@ MonoBehaviour:
   speciesName: Specter
   qAbilityName: Ghost
   eAbilityName: 
-  headMaterial: {fileID: 2100000, guid: 7fad2857aa598f34d9e15917fd3899fd, type: 2}
+  headMaterial: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
   bodyMaterials:
-  - {fileID: 2100000, guid: 23b3cda068116204f899ce406802fee7, type: 2}
+  - {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
+  - {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   intermediaryMaterials:
-  - {fileID: 2100000, guid: 23b3cda068116204f899ce406802fee7, type: 2}
+  - {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}

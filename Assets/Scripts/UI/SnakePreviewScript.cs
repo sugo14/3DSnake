@@ -21,9 +21,8 @@ public class SnakePreview : MonoBehaviour
 
     void UpdateSnakePreview()
     {
-        snakePreview.GetComponent<MeshRenderer>().material = speciesRegistry.speciesList[currentSpeciesIndex].bodyMaterials[0];
+        snakePreview.GetComponent<MeshRenderer>().material.color = speciesRegistry.speciesList[currentSpeciesIndex].bodyMaterials[0];
         speciesNameText.text = speciesRegistry.speciesList[currentSpeciesIndex].speciesName;
-        Ability ability = AbilityRegistry.GetAbility(speciesRegistry.speciesList[currentSpeciesIndex].qAbilityName);
     }
 
     void Update()

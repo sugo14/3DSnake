@@ -35,10 +35,12 @@ public class SnakeMove : MonoBehaviour
         transform.position = orient.WorldPosition();
         wantDir = Vector2Int.zero;
         idx = 0;
-        GetComponent<MeshRenderer>().material = manager.snakeSpecies.snakeSpecies.headMaterial;
+        GetComponent<MeshRenderer>().material.color = manager.snakeSpecies.snakeSpecies.headMaterial;
     }
 
     void Start() { Reset(); }
+
+    int TrueLength() { return Math.Max(currLength + lengthMod, 0); }
 
     public void OnTick()
     {
@@ -48,14 +50,16 @@ public class SnakeMove : MonoBehaviour
         if (wantDir == Vector2Int.right) { orient.RightInput(); }
 
         if (wantDir != Vector2Int.zero) { Debug.Log(orient.ToString()); } // DEBUG
-
         wantDir = Vector2Int.zero;
 
+        if (TrueLength() <= 1 && snakeBody.Count <= 1) { idx = 0; }
+        else { idx++; }
+
         GameObject newBody = Instantiate(snakeBodyPrefab, transform.position, Quaternion.identity);
-        newBody.GetComponent<MeshRenderer>().material = manager.snakeSpecies.snakeSpecies.bodyMaterials[idx % manager.snakeSpecies.snakeSpecies.bodyMaterials.Count];
+        newBody.GetComponent<MeshRenderer>().material.color = manager.snakeSpecies.snakeSpecies.bodyMaterials[idx % manager.snakeSpecies.snakeSpecies.bodyMaterials.Count];
         newBody.GetComponent<SnakeBody>().cubeOrient = CubeOrient.Copy(orient);
         snakeBody.Insert(0, newBody);
-        while (snakeBody.Count > Math.Max(currLength + lengthMod, 0))
+        while (snakeBody.Count > TrueLength())
         {
             GameObject lastBody = snakeBody[snakeBody.Count - 1];
             snakeBody.RemoveAt(snakeBody.Count - 1);
@@ -68,7 +72,7 @@ public class SnakeMove : MonoBehaviour
         {
             // create intermediary cube
             GameObject cube = Instantiate(snakeBodyPrefab, transform.position, Quaternion.identity);
-            cube.GetComponent<MeshRenderer>().material = manager.snakeSpecies.snakeSpecies.intermediaryMaterials[idx % manager.snakeSpecies.snakeSpecies.intermediaryMaterials.Count];
+            cube.GetComponent<MeshRenderer>().material.color = manager.snakeSpecies.snakeSpecies.intermediaryMaterials[idx % manager.snakeSpecies.snakeSpecies.intermediaryMaterials.Count];
             if (Vector3.Distance(transform.position, snakeBody[0].transform.position) >= 1.5f)
             {
                 // hide cube
@@ -90,8 +94,6 @@ public class SnakeMove : MonoBehaviour
             intermediaryCubes.RemoveAt(intermediaryCubes.Count - 1);
             Destroy(lastBody);
         }
-
-        idx++;
     }
 
     void Update()

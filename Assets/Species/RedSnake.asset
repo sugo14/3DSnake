@@ -15,10 +15,10 @@ MonoBehaviour:
   speciesName: Cinder
   qAbilityName: Bomb
   eAbilityName: 
-  headMaterial: {fileID: 2100000, guid: 0787b15ad34938f42909dbfc2b9ba216, type: 2}
+  headMaterial: {r: 0.6132076, g: 0, b: 0, a: 1}
   bodyMaterials:
-  - {fileID: 2100000, guid: 6545da202b4a17b4d836f9b095ccbfd9, type: 2}
-  - {fileID: 2100000, guid: 172f87a7355cb6c42ae56c1db4ca2faa, type: 2}
+  - {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
+  - {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 2.6308398e+20}
   intermediaryMaterials:
-  - {fileID: 2100000, guid: 6545da202b4a17b4d836f9b095ccbfd9, type: 2}
-  - {fileID: 2100000, guid: 172f87a7355cb6c42ae56c1db4ca2faa, type: 2}
+  - {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
+  - {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 2.6308398e+20}
