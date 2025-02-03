@@ -16,13 +16,13 @@ public abstract class Ability
         this.cooldown = cooldown;
     }
 
-    public abstract List<Effect> Effect(SnakeManager snakeManager);
+    public abstract List<TimedEffect> Effect(SnakeManager snakeManager);
 
     public int GetDuration(SnakeManager snakeManager)
     {
-        List<Effect> effects = Effect(snakeManager);
+        List<TimedEffect> effects = Effect(snakeManager);
         int duration = 0;
-        foreach (Effect effect in effects)
+        foreach (TimedEffect effect in effects)
         {
             if (effect.turns > duration) { duration = effect.turns; }
         }
@@ -45,7 +45,7 @@ public class FreezeFrame : Ability
         15
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new SpeedChange(4, 0.4f)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new SpeedChange(4, 0.4f)}; }
 }
 
 public class Ghost : Ability
@@ -58,7 +58,7 @@ public class Ghost : Ability
         40
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new Invincibility(3)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new Invincibility(3)}; }
 }
 
 public class Hourglass : Ability
@@ -71,10 +71,10 @@ public class Hourglass : Ability
         60
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) {
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) {
         Ability otherAbility = snakeManager.abilities.qAbility;
         if (otherAbility == this || otherAbility == null) { otherAbility = snakeManager.abilities.eAbility; }
-        if (otherAbility == this || otherAbility == null) { return new List<Effect>(); }
+        if (otherAbility == this || otherAbility == null) { return new List<TimedEffect>(); }
         return otherAbility.Effect(snakeManager);
     }
 }
@@ -85,11 +85,11 @@ public class Snip : Ability
     (
         "Snip",
         "Temporarily reduces the snake's length by 15, slowly growing back.",
-        "Length-Reduce-Sprite",
+        "Scissors-Sprite",
         30
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new ReduceLength(15)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new ReduceLength(15)}; }
 }
 
 public class Teleport : Ability
@@ -102,7 +102,7 @@ public class Teleport : Ability
         40
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new MoveForward(4)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new MoveForward(4), new SpeedChange(1, 0.4f)}; }
 }
 
 public class Bomb : Ability
@@ -115,7 +115,7 @@ public class Bomb : Ability
         60
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new ReduceLength(30), new RemoveScore(10)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new ReduceLength(30), new RemoveScore(10)}; }
 }
 
 public class LineCollect : Ability
@@ -128,7 +128,7 @@ public class LineCollect : Ability
         10
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new CollectFoodInLine()}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new CollectFoodInLine()}; }
 }
 
 public class FaceCollect : Ability
@@ -141,7 +141,7 @@ public class FaceCollect : Ability
         15
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new CollectFoodOnFace()}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new CollectFoodOnFace()}; }
 }
 
 public class Retract : Ability
@@ -154,5 +154,5 @@ public class Retract : Ability
         30
     ) { }
 
-    public override List<Effect> Effect(SnakeManager snakeManager) { return new List<Effect>{new Reverse(7), new SpeedChange(2, 0.4f)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new Reverse(7), new SpeedChange(1, 0.4f)}; }
 }

@@ -1,163 +1,59 @@
 using System;
 using UnityEngine;
 
-public class Effect : UntimedEffect
+public class Effect
 {
-    public int turns;
-
-    public Effect(int turns) { this.turns = turns; }
-
-    public override void OnTick() { turns--; }
-    public override bool WantsToDetach() { return turns <= 0; }
+    public virtual void OnTick() { }
+    public virtual bool WantsToDetach() { return false; }
+    public virtual void Apply(SnakeManager snakeManager) { }
+    public virtual void Remove(SnakeManager snakeManager) { }
 }
 
-public class None : Effect
-{
-    public None() : base(0) { }
-}
-
-public class SpeedChange : Effect
+public class SpeedMultiplier : Effect
 {
     public float speedMultiplier;
 
-    public SpeedChange(int turns, float speedMultiplier) : base(turns)
-    {
-        this.speedMultiplier = speedMultiplier;
-    }
+    public SpeedMultiplier(float speedMultiplier) { this.speedMultiplier = speedMultiplier; }
 
     public override void Apply(SnakeManager snakeManager) { snakeManager.tickTime /= speedMultiplier; }
     public override void Remove(SnakeManager snakeManager) { snakeManager.tickTime *= speedMultiplier; }
 }
 
-public class Invincibility : Effect
+public class FoodModifier : Effect
 {
-    public Invincibility(int turns) : base(turns) { }
+    public float foodAdd, foodMult;
 
-    public override void Apply(SnakeManager snakeManager) { snakeManager.effectManager.isInvincible++; }
-    public override void Remove(SnakeManager snakeManager) { snakeManager.effectManager.isInvincible--; }
-}
-
-public class ReduceLength : Effect
-{
-    public int length;
-
-    public ReduceLength(int length) : base(1)
+    public FoodModifier(float foodAdd, float foodMult)
     {
-        this.length = length;
-    }
-
-    public override void Apply(SnakeManager snakeManager) { snakeManager.snakeMove.lengthMod -= length; }
-    public override void Remove(SnakeManager snakeManager) { snakeManager.snakeMove.lengthMod += length; }
-}
-
-public class MoveForward : Effect
-{
-    public int dist;
-
-    public MoveForward(int dist) : base(1)
-    {
-        this.dist = dist;
+        this.foodAdd = foodAdd;
+        this.foodMult = foodMult;
     }
 
     public override void Apply(SnakeManager snakeManager)
     {
-        CubeOrient orient = snakeManager.snakeMove.orient;
-        for (int i = 0; i < dist; i++)
-        {
-            orient.Go();
-        }
-        snakeManager.snakeMove.orient = orient;
+        FoodManager fm = snakeManager.foodManager.GetComponent<FoodManager>();
+        fm.foodAdd += foodAdd;
+        fm.foodMult *= foodMult;
+    }
+    public override void Remove(SnakeManager snakeManager)
+    {
+        FoodManager fm = snakeManager.foodManager.GetComponent<FoodManager>();
+        fm.foodAdd -= foodAdd;
+        fm.foodMult /= foodMult;
     }
 }
 
-public class RemoveScore : Effect
+public class LengthModifier : Effect
 {
-    public int score;
+    public int lengthAdd;
+    public float lengthMult;
 
-    public RemoveScore(int score) : base(1)
+    public LengthModifier(int lengthAdd, float lengthMult)
     {
-        this.score = score;
+        this.lengthAdd = lengthAdd;
+        this.lengthMult = lengthMult;
     }
 
-    public override void Apply(SnakeManager snakeManager) { snakeManager.snakeMove.currLength = Math.Max(snakeManager.snakeMove.currLength - score, 0); }
-}
-
-public class CollectFoodInLine : Effect
-{
-    public CollectFoodInLine() : base(1) { }
-
-    public override void Apply(SnakeManager snakeManager)
-    {
-        CubeOrient orient = CubeOrient.Copy(snakeManager.snakeMove.orient);
-        CubeOrient originalOrient = CubeOrient.Copy(orient);
-        do
-        {
-            orient.Go();
-            foreach (Transform child in snakeManager.foodManager.transform)
-            {
-                if (child.position == orient.WorldPosition())
-                {
-                    FoodScript foodScript = child.GetComponent<FoodScript>();
-                    foodScript.Collect();
-                }
-            }
-        } while (!(orient.WorldPosition() == originalOrient.WorldPosition()));
-    }
-}
-
-public class CollectFoodOnFace : Effect
-{
-    public CollectFoodOnFace() : base(1) { }
-
-    public override void Apply(SnakeManager snakeManager)
-    {
-        foreach (Transform child in snakeManager.foodManager.transform)
-        {
-            if (child.GetComponent<FoodScript>().cubeOrient.square == snakeManager.snakeMove.orient.square)
-            {
-                FoodScript foodScript = child.GetComponent<FoodScript>();
-                foodScript.Collect();
-            }
-        }
-    }
-}
-
-public class GainPoints : Effect
-{
-    public int points;
-
-    public GainPoints(int points) : base(1)
-    {
-        this.points = points;
-    }
-
-    public override void Apply(SnakeManager snakeManager) { snakeManager.snakeMove.currLength += points; }
-}
-
-public class Reverse : Effect
-{
-    public int depth;
-
-    public Reverse(int depth) : base(1)
-    {
-        this.depth = depth;
-    }
-
-    public override void Apply(SnakeManager snakeManager)
-    {
-        if (snakeManager.snakeMove.snakeBody.Count == 0) { return; }
-        for (int i = 0; i < depth; i++)
-        {
-            if (snakeManager.snakeMove.snakeBody.Count == 1) { break; }
-            GameObject lastBody = snakeManager.snakeMove.snakeBody[0];
-            snakeManager.snakeMove.snakeBody.RemoveAt(0);
-            GameObject.Destroy(lastBody);
-            GameObject lastCube = snakeManager.snakeMove.intermediaryCubes[0];
-            snakeManager.snakeMove.intermediaryCubes.RemoveAt(0);
-            GameObject.Destroy(lastCube);
-        }
-        GameObject mostRecent = snakeManager.snakeMove.snakeBody[0];
-        snakeManager.snakeMove.orient = CubeOrient.Copy(mostRecent.GetComponent<SnakeBody>().cubeOrient);
-        snakeManager.transform.position = snakeManager.snakeMove.orient.WorldPosition();
-    }
+    public override void Apply(SnakeManager snakeManager) { snakeManager.snakeMove.lengthMod += lengthAdd; }
+    public override void Remove(SnakeManager snakeManager) { snakeManager.snakeMove.lengthMod -= lengthAdd; }
 }

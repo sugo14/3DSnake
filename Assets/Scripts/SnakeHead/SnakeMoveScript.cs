@@ -35,7 +35,7 @@ public class SnakeMove : MonoBehaviour
         transform.position = orient.WorldPosition();
         wantDir = Vector2Int.zero;
         idx = 0;
-        GetComponent<MeshRenderer>().material.color = manager.snakeSpecies.snakeSpecies.headMaterial;
+        SetColor(gameObject, manager.snakeSpecies.snakeSpecies.headMaterial);
     }
 
     void Start() { Reset(); }

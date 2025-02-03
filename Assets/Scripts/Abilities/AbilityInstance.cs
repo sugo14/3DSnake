@@ -24,9 +24,9 @@ public class AbilityInstance
     public void Apply(SnakeManager snakeManager)
     {
         applyTimer = ability.cooldown;
-        appliedTimer = ability.Effect(snakeManager)[0].turns;
-        List<Effect> effects = ability.Effect(snakeManager);
-        foreach (Effect effect in effects)
+        appliedTimer = ability.GetDuration(snakeManager);
+        List<TimedEffect> effects = ability.Effect(snakeManager);
+        foreach (TimedEffect effect in effects)
         {
             snakeManager.effectManager.AddEffect(effect);
             if (effect.turns < appliedTimer) { appliedTimer = effect.turns; }

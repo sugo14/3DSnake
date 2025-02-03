@@ -9,7 +9,8 @@ public class SnakeManager : MonoBehaviour
     public Abilities abilities;
     public EffectManager effectManager;
     public SnakeSpecies snakeSpecies;
-    public GameObject foodManager;
+    public PermEffectManager permEffectManager;
+    public FoodManager foodManager;
 
     public float tickTime = 0.3f;
     public int isInvincibleCnt = 0;
@@ -21,6 +22,7 @@ public class SnakeManager : MonoBehaviour
         effectManager.Reset();
         snakeMove.Reset();
         abilities.Reset();
+        permEffectManager.Reset();
         isInvincibleCnt = 0;
     }
 

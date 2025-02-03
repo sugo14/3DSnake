@@ -17,8 +17,8 @@ public class Abilities : MonoBehaviour
         wantsQ = false;
         wantsE = false;
 
-        qCube.GetComponent<AbilityCubeScript>().SetColor(snakeManager.snakeSpecies.snakeSpecies.bodyMaterials[0]);
-        eCube.GetComponent<AbilityCubeScript>().SetColor(snakeManager.snakeSpecies.snakeSpecies.bodyMaterials[0]);
+        qCube.GetComponent<AbilityCubeScript>().SetColor(snakeManager.snakeSpecies.snakeSpecies.headMaterial);
+        eCube.GetComponent<AbilityCubeScript>().SetColor(snakeManager.snakeSpecies.snakeSpecies.headMaterial);
 
         if (snakeManager.snakeSpecies.snakeSpecies.qAbilityName == "") { qAbility = null; }
         else { qAbility = AbilityRegistry.GetAbility(snakeManager.snakeSpecies.snakeSpecies.qAbilityName); }

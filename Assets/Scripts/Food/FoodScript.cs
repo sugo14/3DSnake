@@ -7,6 +7,7 @@ public class FoodScript : MonoBehaviour
     public GameObject snakeHead;
     public GameObject foodManager;
     public CubeOrient cubeOrient;
+    public Color color;
     
     public int points;
 
@@ -17,6 +18,11 @@ public class FoodScript : MonoBehaviour
         snakeManager = snakeHead.GetComponent<SnakeManager>();
         RandomizeOrient();
         transform.position = cubeOrient.WorldPosition();
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        MaterialPropertyBlock block = new MaterialPropertyBlock();
+        meshRenderer.GetPropertyBlock(block);
+        block.SetColor("_Color", color);
+        meshRenderer.SetPropertyBlock(block);
     }
 
     public void RandomizeOrient()
@@ -42,7 +48,7 @@ public class FoodScript : MonoBehaviour
         if (snakeManager == null) { snakeManager = snakeHead.GetComponent<SnakeManager>(); }
         
         if (transform.position == snakeHead.transform.position) { Collect(); }
-        float scale = Mathf.Sin(Time.time * 5) * 0.1f + 0.7f;
+        float scale = Mathf.Sin(Time.time * 4) * 0.1f + 0.7f;
         transform.localScale = new Vector3(scale, scale, scale);
     }
 }

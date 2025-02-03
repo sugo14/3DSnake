@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speciesName: Frostbite
   qAbilityName: Freeze Frame
-  eAbilityName: 
+  eAbilityName: Face Collect
   headMaterial: {r: 0.6650944, g: 0.90730286, b: 1, a: 1}
   bodyMaterials:
   - {r: 0.34950158, g: 0.7932263, b: 0.9622642, a: 1}
