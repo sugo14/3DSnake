@@ -10,6 +10,7 @@ public class Abilities : MonoBehaviour
     public GameObject qCube, eCube;
 
     AbilityInstance qInstance, eInstance;
+    string qAbilityName, eAbilityName;
     bool wantsQ, wantsE;
 
     public void Reset()
@@ -121,5 +122,23 @@ public class Abilities : MonoBehaviour
                 abilityCubeScript.SetApplied(false);
             }
         }
+    }
+
+    public void SetQAbility(Ability ability)
+    {
+        qAbilityName = ability.abilityName;
+        qAbility = ability;
+        qInstance = ability.Instantiate();
+        qCube.GetComponent<AbilityCubeScript>().SetSprite(Resources.Load<Sprite>(ability.spritePath));
+        UpdateButtons();
+    }
+
+    public void SetEAbility(Ability ability)
+    {
+        eAbilityName = ability.abilityName;
+        eAbility = ability;
+        eInstance = ability.Instantiate();
+        eCube.GetComponent<AbilityCubeScript>().SetSprite(Resources.Load<Sprite>(ability.spritePath));
+        UpdateButtons();
     }
 }

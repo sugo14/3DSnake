@@ -20,6 +20,8 @@ public class StateManager : MonoBehaviour
     public GameObject menuText;
     public GameObject snakePreview;
     public GameObject abilities;
+    public GameObject shop;
+    public GameObject effectViews;
 
     SnakeManager snakeManager;
 
@@ -81,8 +83,10 @@ public class StateManager : MonoBehaviour
             scoreText.GetComponent<TMP_Text>().text = snakeManager.snakeMove.currLength.ToString();
             gameOverText.SetActive(false);
             pauseText.SetActive(false);
+            shop.SetActive(false);
             menuText.SetActive(false);
             abilities.SetActive(true);
+            effectViews.SetActive(true);
         }
         if (currState == State.GameOver)
         {
@@ -91,8 +95,10 @@ public class StateManager : MonoBehaviour
             scoreText.SetActive(false);
             gameOverText.SetActive(true);
             pauseText.SetActive(false);
+            shop.SetActive(false);
             menuText.SetActive(false);
             abilities.SetActive(false);
+            effectViews.SetActive(false);
         }
         if (currState == State.Pause)
         {
@@ -100,9 +106,11 @@ public class StateManager : MonoBehaviour
             foodManager.SetActive(false);
             scoreText.SetActive(false);
             gameOverText.SetActive(false);
-            pauseText.SetActive(true);
+            /* pauseText.SetActive(true); */
+            shop.SetActive(true);
             menuText.SetActive(false);
             abilities.SetActive(false);
+            effectViews.SetActive(false);
         }
         if (currState == State.Menu)
         {
@@ -111,8 +119,10 @@ public class StateManager : MonoBehaviour
             scoreText.SetActive(false);
             gameOverText.SetActive(false);
             pauseText.SetActive(false);
+            shop.SetActive(false);
             menuText.SetActive(true);
             abilities.SetActive(false);
+            effectViews.SetActive(false);
         }
     }
 

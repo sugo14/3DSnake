@@ -14,7 +14,8 @@ public class SnakeMove : MonoBehaviour
     public GameObject snakeBodyPrefab;
 
     public int currLength;
-    public int lengthMod;
+    public float lengthMod = 0;
+    public float lengthMult = 1;
 
     // the most recent body is at the front of the list
     public List<GameObject> snakeBody = new List<GameObject>();
@@ -40,7 +41,7 @@ public class SnakeMove : MonoBehaviour
 
     void Start() { Reset(); }
 
-    int TrueLength() { return Math.Max(currLength + lengthMod, 0); }
+    int TrueLength() { return Math.Max((int)((currLength + lengthMod) * lengthMult), 0); }
 
     void SetColor(GameObject newBody, Color color)
     {
@@ -58,7 +59,7 @@ public class SnakeMove : MonoBehaviour
         if (wantDir == Vector2Int.left) { orient.LeftInput(); }
         if (wantDir == Vector2Int.right) { orient.RightInput(); }
 
-        if (wantDir != Vector2Int.zero) { Debug.Log(orient.ToString()); } // DEBUG
+        /* if (wantDir != Vector2Int.zero) { Debug.Log(orient.ToString()); } // DEBUG */
         wantDir = Vector2Int.zero;
 
         if (TrueLength() <= 1 && snakeBody.Count <= 1) { idx = 0; }
@@ -86,6 +87,7 @@ public class SnakeMove : MonoBehaviour
             {
                 // hide cube
                 cube.SetActive(false);
+                // this does weird stuff lmao
             }
             else
             {
@@ -97,7 +99,7 @@ public class SnakeMove : MonoBehaviour
             intermediaryCubes.Insert(0, cube);
         }
 
-        while (intermediaryCubes.Count > Math.Max(currLength + lengthMod, 0))
+        while (intermediaryCubes.Count > TrueLength())
         {
             GameObject lastBody = intermediaryCubes[intermediaryCubes.Count - 1];
             intermediaryCubes.RemoveAt(intermediaryCubes.Count - 1);

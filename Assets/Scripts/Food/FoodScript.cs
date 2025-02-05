@@ -10,8 +10,10 @@ public class FoodScript : MonoBehaviour
     public Color color;
     
     public int points;
+    public float growSpeed = 10f;
 
     SnakeManager snakeManager;
+    float currScale;
 
     void Start()
     {
@@ -33,6 +35,7 @@ public class FoodScript : MonoBehaviour
                snakeManager.snakeMove.snakeBody.ToArray().Any(
                    x => x.transform.position == cubeOrient.WorldPosition()));
         transform.position = cubeOrient.WorldPosition();
+        currScale = 0f;
     }
 
     public void Collect()
@@ -41,6 +44,7 @@ public class FoodScript : MonoBehaviour
         transform.position = cubeOrient.WorldPosition();
         FoodManager fm = foodManager.GetComponent<FoodManager>();
         snakeManager.snakeMove.Grow((int)Math.Ceiling(fm.foodMult * points + fm.foodAdd));
+        currScale = 0f;
     }
 
     void Update()
@@ -48,7 +52,8 @@ public class FoodScript : MonoBehaviour
         if (snakeManager == null) { snakeManager = snakeHead.GetComponent<SnakeManager>(); }
         
         if (transform.position == snakeHead.transform.position) { Collect(); }
-        float scale = Mathf.Sin(Time.time * 4) * 0.1f + 0.7f;
-        transform.localScale = new Vector3(scale, scale, scale);
+        float desiredScale = Mathf.Sin(Time.time * 4) * 0.125f + 0.6875f;
+        currScale = Mathf.Lerp(currScale, desiredScale, Time.deltaTime * growSpeed);
+        transform.localScale = new Vector3(currScale, currScale, currScale);
     }
 }

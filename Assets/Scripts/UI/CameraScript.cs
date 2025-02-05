@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class CameraScript : MonoBehaviour
 {
     public GameObject snakeHead, cubePrefab;
     public int minDist = 25, maxDist = 70;
     public int cubeCount = 300, minSize = 1, maxSize = 9;
-    public float distance = 10, rotationSpeed = 2, moveSpeed = 2, foresight = 2;
+    public float distance = 10, moveSpeed = 2, foresight = 2;
+
+    float initialTickTime;
 
     SnakeManager snakeManager;
 
@@ -26,11 +29,14 @@ public class CameraScript : MonoBehaviour
             int scale = UnityEngine.Random.Range(minSize, maxSize);
             instance.transform.localScale = new Vector3(scale, scale, scale);
         }
+        initialTickTime = snakeManager.tickTime;
     }
 
     void Update()
     {
         if (snakeManager == null) { snakeManager = snakeHead.GetComponent<SnakeManager>(); }
+
+        float currSpeed = moveSpeed / Math.Min(1, snakeManager.tickTime / initialTickTime);
 
         CubeOrient cubeOrient = snakeManager.snakeMove.orient;
 
@@ -44,7 +50,7 @@ public class CameraScript : MonoBehaviour
         Vector3 desiredPos = futurePos + Vector3.ClampMagnitude(futurePos, 1) * distance;
         Quaternion desiredRot = Quaternion.LookRotation(Vector3.zero - desiredPos, cubeOrient.SnakeUp());
 
-        transform.position = Vector3.Slerp(transform.position, desiredPos, moveSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRot, rotationSpeed * Time.deltaTime);
+        transform.position = Vector3.Slerp(transform.position, desiredPos, currSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRot, currSpeed * Time.deltaTime);
     }
 }

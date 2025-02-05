@@ -7,7 +7,7 @@ public class TimedEffect : Effect
 
     public TimedEffect(int turns) { this.turns = turns; }
 
-    public override void OnTick() { turns--; }
+    public override void OnTick(SnakeManager snakeManager) { turns--; }
     public override bool WantsToDetach() { return turns <= 0; }
 }
 

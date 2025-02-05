@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 public abstract class PermEffect
@@ -7,14 +8,16 @@ public abstract class PermEffect
     public string abilityName { get; }
     public string description { get; }
     public string spritePath { get; }
-    public Color color { get; }
+    public Rarity rarity { get; }
+    public int cost { get; }
 
-    protected PermEffect(string abilityName, string description, string spriteFileName, Color color)
+    protected PermEffect(string abilityName, string description, string spriteFileName, Rarity rarity = Rarity.Common, int cost = 5)
     {
         this.abilityName = abilityName;
         this.description = description;
         spritePath = $"AbilityIcons/{spriteFileName}";
-        this.color = color;
+        this.rarity = rarity;
+        this.cost = cost;
     }
 
     public abstract List<Effect> Effect(SnakeManager snakeManager);
@@ -37,7 +40,7 @@ public class SlowDown : PermEffect
         "Slow Down",
         "Sets speed to 0.95x",
         "Clock-Sprite",
-        Color.cyan
+        Rarity.Common
     ) { }
 
     public override List<Effect> Effect(SnakeManager snakeManager)
@@ -54,7 +57,7 @@ public class GreaterSlowDown : PermEffect
         "Greater Slow Down",
         "Sets speed to 0.9x",
         "Clock-Sprite",
-        Color.yellow
+        Rarity.Epic
     ) { }
 
     public override List<Effect> Effect(SnakeManager snakeManager)
@@ -71,7 +74,7 @@ public class FoodAdd : PermEffect
         "Food Add",
         "+1 point per food",
         "Growth-Sprite",
-        Color.red
+        Rarity.Common
     ) { }
 
     public override List<Effect> Effect(SnakeManager snakeManager)
@@ -88,7 +91,7 @@ public class FoodMult : PermEffect
         "Food Mult",
         "1.25x food points",
         "Growth-Sprite",
-        Color.yellow
+        Rarity.Rare
     ) { }
 
     public override List<Effect> Effect(SnakeManager snakeManager)
@@ -104,7 +107,7 @@ public class LengthCut : PermEffect
         "Length Cut",
         "-5 length permanently",
         "Scissors-Sprite",
-        Color.green
+        Rarity.Common
     ) { }
 
     public override List<Effect> Effect(SnakeManager snakeManager)
@@ -120,11 +123,27 @@ public class LengthMult : PermEffect
         "Length Mult",
         "0.9x length permanently",
         "Scissors-Sprite",
-        Color.yellow
+        Rarity.Epic
     ) { }
 
     public override List<Effect> Effect(SnakeManager snakeManager)
     {
         return new List<Effect>{ new LengthModifier(0, 0.9f) };
+    }
+}
+
+public class HardMode : PermEffect
+{
+    public HardMode() : base
+    (
+        "Hard Mode",
+        "Curse of Adjacency",
+        "Skull-Sprite",
+        Rarity.Mythic
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager)
+    {
+        return new List<Effect>{ new COASpeed(0.15f), new FoodModifier(1.5f, 1), new LengthModifier(1, 0.66f) };
     }
 }

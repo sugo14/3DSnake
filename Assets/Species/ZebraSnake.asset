@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8a3cc447743cd4ebb5a7c440dba0da, type: 3}
   m_Name: ZebraSnake
   m_EditorClassIdentifier: 
-  speciesName: Zebrasnake
+  speciesName: Ascended
   qAbilityName: 
-  eAbilityName: Hourglass
-  headMaterial: {r: 0.3679245, g: 0.23939742, b: 0.030081855, a: 1}
+  eAbilityName: 
+  permEffectNames:
+  - Hard Mode
+  headMaterial: {r: 1, g: 1, b: 1, a: 1}
   bodyMaterials:
-  - {r: 0.46226418, g: 0.3984954, b: 0.29509315, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
   intermediaryMaterials:
-  - {r: 0.122938186, g: 0.122938186, b: 0.13207549, a: 1}
-  - {r: 0.8086945, g: 0.80784315, b: 0.85882354, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}

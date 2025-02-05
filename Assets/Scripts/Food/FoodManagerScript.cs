@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FoodManager : MonoBehaviour
 {
-    public float foodAdd, foodMult = 1;
+    public float foodAdd = 0, foodMult = 1;
 
     public void Reset()
     {

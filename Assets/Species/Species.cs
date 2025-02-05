@@ -7,8 +7,11 @@ using UnityEngine.UI;
 public class Species : ScriptableObject
 {
     public string speciesName;
+
     public string qAbilityName;
     public string eAbilityName;
+    public List<string> permEffectNames;
+
     public Color headMaterial;
     public List<Color> bodyMaterials;
     public List<Color> intermediaryMaterials;

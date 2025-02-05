@@ -7,13 +7,17 @@ public abstract class Ability
     public string description { get; }
     public string spritePath { get; }
     public int cooldown { get; }
+    public int cost { get; }
+    public Rarity rarity;
 
-    protected Ability(string abilityName, string description, string spriteFileName, int cooldown)
+    protected Ability(string abilityName, string description, string spriteFileName, int cooldown, Rarity rarity = Rarity.Common, int cost = 5)
     {
         this.abilityName = abilityName;
         this.description = description;
         spritePath = $"AbilityIcons/{spriteFileName}";
         this.cooldown = cooldown;
+        this.rarity = rarity;
+        this.cost = cost;
     }
 
     public abstract List<TimedEffect> Effect(SnakeManager snakeManager);
@@ -42,7 +46,8 @@ public class FreezeFrame : Ability
         "Freeze Frame",
         "Slow time to 0.4x speed",
         "Clock-Sprite",
-        15
+        15,
+        Rarity.Common
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new SpeedChange(4, 0.4f)}; }
@@ -55,7 +60,8 @@ public class Ghost : Ability
         "Ghost",
         "Provides invincibility to crashes into the body for 3 turns.",
         "Ghost-Sprite",
-        40
+        40,
+        Rarity.Rare
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new Invincibility(3)}; }
@@ -68,7 +74,8 @@ public class Hourglass : Ability
         "Hourglass",
         "Copies your other equipped ability, or none if no other ability is equipped.",
         "Hourglass-Sprite",
-        60
+        60,
+        Rarity.Mythic
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) {
@@ -86,7 +93,8 @@ public class Snip : Ability
         "Snip",
         "Temporarily reduces the snake's length by 15, slowly growing back.",
         "Scissors-Sprite",
-        30
+        30,
+        Rarity.Rare
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new ReduceLength(15)}; }
@@ -99,7 +107,8 @@ public class Teleport : Ability
         "Teleport",
         "Instantly moves the snake head 4 spaces forward, leaving part of the body behind.",
         "Teleport-Sprite",
-        40
+        40,
+        Rarity.Mythic
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new MoveForward(4), new SpeedChange(1, 0.4f)}; }
@@ -112,7 +121,8 @@ public class Bomb : Ability
         "Bomb",
         "Reduces score by 10. Temporarily reduces length by 30, slowly growing back.",
         "Bomb-Sprite",
-        60
+        60,
+        Rarity.Epic
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new ReduceLength(30), new RemoveScore(10)}; }
@@ -125,7 +135,8 @@ public class LineCollect : Ability
         "Line Collect",
         "Collects all of the food in a line in front of the snake head, wrapping around the cube.",
         "Arrow-Sprite",
-        10
+        10,
+        Rarity.Common
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new CollectFoodInLine()}; }
@@ -138,7 +149,8 @@ public class FaceCollect : Ability
         "Face Collect",
         "Collects all of the food on the same face of the cube as the snake head.",
         "Face-Sprite",
-        15
+        15,
+        Rarity.Rare
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new CollectFoodOnFace()}; }
@@ -151,7 +163,8 @@ public class Retract : Ability
         "Retract",
         "The snake head retracts into the body by 7 spaces, slowly growing back.",
         "Retract-Sprite",
-        30
+        30,
+        Rarity.Epic
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new Reverse(7), new SpeedChange(1, 0.4f)}; }

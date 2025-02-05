@@ -11,6 +11,7 @@ public class SnakeManager : MonoBehaviour
     public SnakeSpecies snakeSpecies;
     public PermEffectManager permEffectManager;
     public FoodManager foodManager;
+    public ShopScript shopScript;
 
     public float tickTime = 0.3f;
     public int isInvincibleCnt = 0;
@@ -19,11 +20,12 @@ public class SnakeManager : MonoBehaviour
 
     public void Reset()
     {
-        effectManager.Reset();
         snakeMove.Reset();
         abilities.Reset();
+        effectManager.Reset();
         permEffectManager.Reset();
         isInvincibleCnt = 0;
+        shopScript.Reset();
     }
 
     void Start()
@@ -33,10 +35,9 @@ public class SnakeManager : MonoBehaviour
 
     void OnTick()
     {
-        Debug.Log("Tick");
         abilities.OnTick();
-        effectManager.OnTick();
         snakeMove.OnTick();
+        effectManager.OnTick();
     }
 
     void Update()
