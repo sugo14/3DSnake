@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
-using Microsoft.Unity.VisualStudio.Editor;
 using System;
 
 public enum ShopItemType
