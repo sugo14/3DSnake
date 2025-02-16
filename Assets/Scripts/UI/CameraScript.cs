@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class CameraScript : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class CameraScript : MonoBehaviour
 
     float initialTickTime;
 
+    CubeOrient lastFrameOrient;
     SnakeManager snakeManager;
 
     void Start()
@@ -43,7 +43,6 @@ public class CameraScript : MonoBehaviour
         cubeOrient = CubeOrient.Copy(cubeOrient);
         for (int i = 0; i < foresight; i++) { cubeOrient.Go(); }
         Vector3 delta = cubeOrient.WorldPosition() - snakeManager.snakeMove.orient.WorldPosition();
-        delta = new Vector3((float)(Math.Sign(delta.x) * Math.Sqrt(Math.Abs(delta.x * 10)) / 10), (float)(Math.Sign(delta.y) * Math.Sqrt(Math.Abs(delta.y * 10)) / 10), (float)(Math.Sign(delta.z) * Math.Sqrt(Math.Abs(delta.z * 10)) / 10));
         Vector3 futurePos = cubeOrient.WorldPosition() + delta;
 
         //Vector3 futurePos = cubeOrient.WorldPosition();
@@ -54,3 +53,4 @@ public class CameraScript : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRot, currSpeed * Time.deltaTime);
     }
 }
+ 

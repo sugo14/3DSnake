@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class PermEffectManager : MonoBehaviour
@@ -12,6 +10,7 @@ public class PermEffectManager : MonoBehaviour
     public void AddEffect(PermEffect permEffect)
     {
         permEffects.Add(permEffect);
+        permEffect.Apply(snakeManager);
     }
 
     void Start()

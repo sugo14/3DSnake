@@ -25,6 +25,18 @@ public class SnakePreview : MonoBehaviour
         speciesNameText.text = speciesRegistry.speciesList[currentSpeciesIndex].speciesName;
     }
 
+    public void GoLeft()
+    {
+        currentSpeciesIndex = (currentSpeciesIndex - 1 + speciesRegistry.speciesList.Count) % speciesRegistry.speciesList.Count;
+        UpdateSnakePreview();
+    }
+
+    public void GoRight()
+    {
+        currentSpeciesIndex = (currentSpeciesIndex + 1) % speciesRegistry.speciesList.Count;
+        UpdateSnakePreview();
+    }
+
     void Update()
     {
         snakePreview.transform.Rotate(0, rotateSpeed * Time.deltaTime, 0);

@@ -12,11 +12,11 @@ public class SnakeManager : MonoBehaviour
     public PermEffectManager permEffectManager;
     public FoodManager foodManager;
     public ShopScript shopScript;
+    public GameObject wallManager;
 
     public float tickTime = 0.3f;
     public int isInvincibleCnt = 0;
-
-    float timer;
+    public float timer;
 
     public void Reset()
     {
@@ -52,6 +52,14 @@ public class SnakeManager : MonoBehaviour
 
     public bool IsDead()
     {
+        foreach (Transform wall in wallManager.transform)
+        {
+            Debug.Log(wall.transform.position);
+            if (wall.transform.position == transform.position)
+            {
+                return true;
+            }
+        }
         return effectManager.isInvincible == 0 && 
                snakeMove.snakeBody.ToArray().Any
                (

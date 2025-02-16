@@ -22,9 +22,11 @@ public class StateManager : MonoBehaviour
     public GameObject abilities;
     public GameObject shop;
     public GameObject effectViews;
+    public GameObject gamepad;
+    public InputManager inputManager;
+    public bool showGamepad = true;
 
     SnakeManager snakeManager;
-
 
     // Start is called before the first frame update
     void Start()
@@ -37,17 +39,22 @@ public class StateManager : MonoBehaviour
         snakeManager.Reset();
         snakeHead.transform.position = Vector3.zero;
         foodManager.GetComponent<FoodManager>().Reset();
+        snakeManager.wallManager.GetComponent<WallScript>().ClearWalls();
     }
 
-    // Update is called once per frame
+    public void MenuToGame() {
+        SnakePreview snakePreviewScript = snakePreview.GetComponent<SnakePreview>();
+        snakeManager.snakeSpecies.snakeSpecies = snakePreviewScript.speciesRegistry.speciesList[snakePreviewScript.currentSpeciesIndex];
+        snakeManager.Reset();
+        currState = State.Game;
+        snakeManager.wallManager.GetComponent<WallScript>().InitializeAllWalls();
+    }
+
     void UpdateState()
     {
         if (currState == State.Menu) {
             if (Input.GetKeyDown(KeyCode.Space)) {
-                SnakePreview snakePreviewScript = snakePreview.GetComponent<SnakePreview>();
-                snakeManager.snakeSpecies.snakeSpecies = snakePreviewScript.speciesRegistry.speciesList[snakePreviewScript.currentSpeciesIndex];
-                snakeManager.Reset();
-                currState = State.Game;
+                MenuToGame();
             }
         }
         else if (currState == State.Game) {
@@ -62,12 +69,12 @@ public class StateManager : MonoBehaviour
             }
         }
         else if (currState == State.Pause) {
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetKeyDown(KeyCode.Space) || inputManager.currInput == InputType.Tap) {
                 currState = State.Game;
             }
         }
         else if (currState == State.GameOver) {
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetKeyDown(KeyCode.Space) || inputManager.currInput == InputType.Tap) {
                 currState = State.Menu;
             }
         }
@@ -87,6 +94,7 @@ public class StateManager : MonoBehaviour
             menuText.SetActive(false);
             abilities.SetActive(true);
             effectViews.SetActive(true);
+            gamepad.SetActive(showGamepad);
         }
         if (currState == State.GameOver)
         {
@@ -99,6 +107,7 @@ public class StateManager : MonoBehaviour
             menuText.SetActive(false);
             abilities.SetActive(false);
             effectViews.SetActive(false);
+            gamepad.SetActive(false);
         }
         if (currState == State.Pause)
         {
@@ -111,6 +120,7 @@ public class StateManager : MonoBehaviour
             menuText.SetActive(false);
             abilities.SetActive(false);
             effectViews.SetActive(false);
+            gamepad.SetActive(false);
         }
         if (currState == State.Menu)
         {
@@ -123,6 +133,7 @@ public class StateManager : MonoBehaviour
             menuText.SetActive(true);
             abilities.SetActive(false);
             effectViews.SetActive(false);
+            gamepad.SetActive(false);
         }
     }
 

@@ -119,13 +119,13 @@ public class Bomb : Ability
     public Bomb() : base
     (
         "Bomb",
-        "Reduces score by 10. Temporarily reduces length by 30, slowly growing back.",
+        "Reduces score by 10. Temporarily reduces length by 40, slowly growing back.",
         "Bomb-Sprite",
         60,
         Rarity.Epic
     ) { }
 
-    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new ReduceLength(30), new RemoveScore(10)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new ReduceLength(40), new RemoveScore(10)}; }
 }
 
 public class LineCollect : Ability

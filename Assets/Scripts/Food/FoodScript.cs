@@ -33,7 +33,10 @@ public class FoodScript : MonoBehaviour
         do { cubeOrient.RandomizePosition(); }
         while (cubeOrient.WorldPosition() == snakeHead.transform.position ||
                snakeManager.snakeMove.snakeBody.ToArray().Any(
-                   x => x.transform.position == cubeOrient.WorldPosition()));
+                   x => x.transform.position == cubeOrient.WorldPosition()) ||
+               snakeManager.wallManager.transform.Cast<Transform>().Any(
+                   x => x.transform.position == cubeOrient.WorldPosition())
+        );
         transform.position = cubeOrient.WorldPosition();
         currScale = 0f;
     }

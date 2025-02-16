@@ -141,4 +141,14 @@ public class Abilities : MonoBehaviour
         eCube.GetComponent<AbilityCubeScript>().SetSprite(Resources.Load<Sprite>(ability.spritePath));
         UpdateButtons();
     }
+
+    public void TryUseQ()
+    {
+        wantsQ = true;
+    }
+
+    public void TryUseE()
+    {
+        wantsE = true;
+    }
 }

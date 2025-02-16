@@ -14,7 +14,7 @@ public class CubeOrient {
     public Vector2Int dir;
 
     public Square upSquare;
-    bool goingInWorldUp;
+    public bool goingInWorldUp;
 
     public CubeOrient() {
         square = Square.Left;
@@ -60,16 +60,28 @@ public class CubeOrient {
         return Vector2Int.zero;
     }
 
+    public Vector2Int WorldDown() {
+        return Opposite(WorldUp());
+    }
+
+    public Vector2Int WorldLeft() {
+        return Left(WorldUp());
+    }
+
+    public Vector2Int WorldRight() {
+        return Right(WorldUp());
+    }
+
     // Transform a vector by 90 degrees to the left.
-    Vector2Int Left(Vector2Int vec) {
+    public static Vector2Int Left(Vector2Int vec) {
         return new Vector2Int(-vec.y, vec.x);
     }
     // Transform a vector by 90 degrees to the right.
-    Vector2Int Right(Vector2Int vec) {
+    public static Vector2Int Right(Vector2Int vec) {
         return new Vector2Int(vec.y, -vec.x);
     }
     // Transform a vector by 180 degrees.
-    Vector2Int Opposite(Vector2Int vec) {
+    public static Vector2Int Opposite(Vector2Int vec) {
         return new Vector2Int(-vec.x, -vec.y);
     }
 
@@ -275,6 +287,6 @@ public class CubeOrient {
     public override string ToString()
     {
         Vector3 wp = WorldPosition();
-        return $"{square.ToString()} ({pos.x},{pos.y}) ({dir.x},{dir.y}) ({wp.x},{wp.y},{wp.z}) {upSquare.ToString()} {goingInWorldUp}";
+        return $"Curr: {square.ToString()} Square Pos: ({pos.x},{pos.y}) Dir: ({dir.x},{dir.y}) World pos: ({wp.x},{wp.y},{wp.z}) Up Square: {upSquare.ToString()} {goingInWorldUp}";
     }
 }
