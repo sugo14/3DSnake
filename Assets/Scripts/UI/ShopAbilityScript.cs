@@ -6,14 +6,13 @@ public class ShopAbilityScript : MonoBehaviour, IDropHandler
     public SnakeManager snakeManager;
     public UnityEngine.UI.Image sprite;
     public UnityEngine.UI.Image inactiveCover;
+    public ShopScript shopScript;
     public bool isQ = false;
 
     public void Reset() { UpdateVisuals(); }
 
     void UpdateVisuals()
     {
-        sprite.color = snakeManager.snakeSpecies.snakeSpecies.headMaterial;
-        
         Ability ability = isQ ? snakeManager.abilities.qAbility : snakeManager.abilities.eAbility;
         if (ability == null)
         {
@@ -21,6 +20,7 @@ public class ShopAbilityScript : MonoBehaviour, IDropHandler
             inactiveCover.gameObject.SetActive(true);
             return;
         }
+        sprite.color = shopScript.rarityColors[(int)ability.rarity];
         inactiveCover.gameObject.SetActive(false);
         string path = ability.spritePath;
         sprite.sprite = (path == "") ? null : Resources.Load<Sprite>(path);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TimedEffect : Effect
 {
-    public int turns;
+    public virtual int turns { get; set; }
 
     public TimedEffect(int turns) { this.turns = turns; }
 
@@ -159,5 +159,38 @@ public class Reverse : TimedEffect
         GameObject mostRecent = snakeManager.snakeMove.snakeBody[0];
         snakeManager.snakeMove.orient = CubeOrient.Copy(mostRecent.GetComponent<SnakeBody>().cubeOrient);
         snakeManager.transform.position = snakeManager.snakeMove.orient.WorldPosition();
+    }
+}
+
+public class SpawnFood : TimedEffect
+{
+    public int durAdd, durMult, points, gold;
+    public Color foodColor;
+
+    GameObject foodInstance;
+
+    public SpawnFood(int durAdd, int durMult, int points, int gold, Color foodColor) : base(0)
+    {
+        this.durAdd = durAdd;
+        this.durMult = durMult;
+        this.points = points;
+        this.gold = gold;
+        this.foodColor = foodColor;
+    }
+
+    public override int turns { get { return durAdd + durMult * CubeOrient.SquareSize; } }
+
+    public override void Apply(SnakeManager snakeManager)
+    {
+        foodInstance = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Food"));
+        GameObject foodManager = GameObject.Find("FoodManager");
+        foodInstance.transform.parent = foodManager.transform;
+        FoodScript script = foodInstance.GetComponent<FoodScript>();
+        script.duration = turns;
+        script.points = points;
+        script.gold = gold;
+        script.color = foodColor;
+        script.foodBehavior = FoodBehavior.Destroy;
+        script.snakeHead = GameObject.Find("SnakeHead");
     }
 }

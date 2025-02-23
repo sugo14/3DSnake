@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Original
   m_EditorClassIdentifier: 
   speciesName: Original
-  qAbilityName: 
+  qAbilityName: Golden Apple
   eAbilityName: 
+  permEffectNames: []
   headMaterial: {r: 0.0018873755, g: 0.754717, b: 0, a: 1}
   bodyMaterials:
   - {r: -Infinity, g: 0.7529412, b: -Infinity, a: 1}

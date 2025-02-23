@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class PermEffect
 {
@@ -141,6 +142,24 @@ public class HardMode : PermEffect
 
     public override List<Effect> Effect(SnakeManager snakeManager)
     {
-        return new List<Effect>{ new COASpeed(0.15f), new FoodModifier(1.5f, 1), new LengthModifier(1, 0.66f) };
+        return new List<Effect>{ new COASpeed(0.15f), new FoodModifier(1.5f, 1), new LengthModifier(1, 0.75f) };
+    }
+}
+
+public class AddedFood : PermEffect
+{
+    public AddedFood() : base
+    (
+        "Added Food",
+        "Another normal food",
+        "Growth-Sprite",
+        Rarity.Rare
+    ) { }
+
+    public override List<Effect> Effect(SnakeManager snakeManager)
+    {
+        Color foodColor;
+        ColorUtility.TryParseHtmlString("#C80006", out foodColor);
+        return new List<Effect>{ new AdditionalFood(4, 2, -1, FoodBehavior.Reposition, foodColor) };
     }
 }

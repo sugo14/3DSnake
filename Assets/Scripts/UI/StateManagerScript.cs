@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public enum State {
     Menu,
@@ -26,13 +27,29 @@ public class StateManager : MonoBehaviour
     public InputManager inputManager;
     public bool showGamepad = true;
 
+    public Material cubeShader1, cubeShader2;
+    public GameObject cube;
+
     SnakeManager snakeManager;
+
+    void InitializeCube(int size, int wallCount, int maxWidth, int maxHeight) {
+        CubeOrient.SquareSize = size;
+        cubeShader1.SetFloat("_GridScale", size);
+        cubeShader2.SetFloat("_GridScale", size);
+        cube.transform.localScale = new Vector3(size, size, size);
+        snakeManager.wallManager.wallCount = wallCount;
+        snakeManager.wallManager.maxWidth = maxWidth;
+        snakeManager.wallManager.maxHeight = maxHeight;
+        snakeManager.wallManager.InitializeAllWalls();
+        snakeManager.Reset();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         currState = State.Menu;
         snakeManager = snakeHead.GetComponent<SnakeManager>();
+        ResetGame();
     }
 
     void ResetGame() {
@@ -40,6 +57,11 @@ public class StateManager : MonoBehaviour
         snakeHead.transform.position = Vector3.zero;
         foodManager.GetComponent<FoodManager>().Reset();
         snakeManager.wallManager.GetComponent<WallScript>().ClearWalls();
+        int size = UnityEngine.Random.Range(5, 11);
+        int wallCount = UnityEngine.Random.Range((int)(size*2), (int)(size*3));
+        int maxDimension = (int)Math.Sqrt(size)+1;
+        InitializeCube(size, wallCount, maxDimension, maxDimension);
+        CubeOrient.SquareSize = size;
     }
 
     public void MenuToGame() {
@@ -47,7 +69,6 @@ public class StateManager : MonoBehaviour
         snakeManager.snakeSpecies.snakeSpecies = snakePreviewScript.speciesRegistry.speciesList[snakePreviewScript.currentSpeciesIndex];
         snakeManager.Reset();
         currState = State.Game;
-        snakeManager.wallManager.GetComponent<WallScript>().InitializeAllWalls();
     }
 
     void UpdateState()
@@ -78,6 +99,8 @@ public class StateManager : MonoBehaviour
                 currState = State.Menu;
             }
         }
+
+        snakeManager.paused = currState != State.Game;
     }
 
     void UpdateGame()

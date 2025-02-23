@@ -44,13 +44,13 @@ public class FreezeFrame : Ability
     public FreezeFrame() : base
     (
         "Freeze Frame",
-        "Slow time to 0.4x speed",
+        "Slow time for 4 turns",
         "Clock-Sprite",
         15,
         Rarity.Common
     ) { }
 
-    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new SpeedChange(4, 0.4f)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new SpeedChange(4, 0.7f), new SpeedChange(3, 0.7f), new SpeedChange(2, 0.7f), new SpeedChange(1, 0.7f)}; }
 }
 
 public class Ghost : Ability
@@ -168,4 +168,18 @@ public class Retract : Ability
     ) { }
 
     public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new Reverse(7), new SpeedChange(1, 0.4f)}; }
+}
+
+public class Spawn : Ability
+{
+    public Spawn() : base
+    (
+        "Golden Apple",
+        "Randomly spawns a delicious golden apple that rots after 10 turns.",
+        "Growth-Sprite",
+        25,
+        Rarity.Mythic
+    ) { }
+
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new SpawnFood(1, 3, 15, 8, Color.yellow)}; }
 }

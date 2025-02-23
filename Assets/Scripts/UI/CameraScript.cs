@@ -6,7 +6,7 @@ public class CameraScript : MonoBehaviour
     public GameObject snakeHead, cubePrefab;
     public int minDist = 25, maxDist = 70;
     public int cubeCount = 300, minSize = 1, maxSize = 9;
-    public float distance = 10, moveSpeed = 2, foresight = 2;
+    public float distance = 1, moveSpeed = 2, foresight = 2;
 
     float initialTickTime;
 
@@ -45,8 +45,7 @@ public class CameraScript : MonoBehaviour
         Vector3 delta = cubeOrient.WorldPosition() - snakeManager.snakeMove.orient.WorldPosition();
         Vector3 futurePos = cubeOrient.WorldPosition() + delta;
 
-        //Vector3 futurePos = cubeOrient.WorldPosition();
-        Vector3 desiredPos = futurePos + Vector3.ClampMagnitude(futurePos, 1) * distance;
+        Vector3 desiredPos = futurePos + Vector3.ClampMagnitude(futurePos, 1) * distance * CubeOrient.SquareSize;
         Quaternion desiredRot = Quaternion.LookRotation(Vector3.zero - desiredPos, cubeOrient.SnakeUp());
 
         transform.position = Vector3.Slerp(transform.position, desiredPos, currSpeed * Time.deltaTime);

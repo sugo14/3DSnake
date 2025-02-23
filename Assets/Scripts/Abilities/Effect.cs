@@ -74,6 +74,41 @@ public class LengthModifier : Effect
     }
 }
 
+public class AdditionalFood : Effect
+{
+    public int points, gold, duration;
+    FoodBehavior foodBehavior;
+    Color foodColor;
+    GameObject foodInstance;
+
+    public AdditionalFood(int points, int gold, int duration, FoodBehavior foodBehavior, Color foodColor)
+    {
+        this.points = points;
+        this.gold = gold;
+        this.duration = duration;
+        this.foodBehavior = foodBehavior;
+        this.foodColor = foodColor;
+    }
+
+    public override void Apply(SnakeManager snakeManager)
+    {
+        foodInstance = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Food"));
+        foodInstance.transform.parent = snakeManager.foodManager.transform;
+        FoodScript script = foodInstance.GetComponent<FoodScript>();
+        script.duration = duration;
+        script.points = points;
+        script.gold = gold;
+        script.color = foodColor;
+        script.foodBehavior = foodBehavior;
+        script.snakeHead = snakeManager.gameObject;
+    }
+
+    public override void Remove(SnakeManager snakeManager)
+    {
+        GameObject.Destroy(foodInstance);
+    }
+}
+
 public abstract class CurseOfAdjacency : Effect
 {
     protected int CalculateAdjacencies(SnakeManager snakeManager) {

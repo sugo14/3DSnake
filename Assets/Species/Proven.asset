@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8a3cc447743cd4ebb5a7c440dba0da, type: 3}
-  m_Name: ZebraSnake
+  m_Name: Proven
   m_EditorClassIdentifier: 
-  speciesName: Ascended
+  speciesName: Proven
   qAbilityName: 
   eAbilityName: 
   permEffectNames:

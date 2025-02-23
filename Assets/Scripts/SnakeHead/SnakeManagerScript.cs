@@ -12,10 +12,12 @@ public class SnakeManager : MonoBehaviour
     public PermEffectManager permEffectManager;
     public FoodManager foodManager;
     public ShopScript shopScript;
-    public GameObject wallManager;
+    public WallScript wallManager;
+    public GoldManager goldManager;
 
     public float tickTime = 0.3f;
     public int isInvincibleCnt = 0;
+    public bool paused = false;
     public float timer;
 
     public void Reset()
@@ -26,6 +28,8 @@ public class SnakeManager : MonoBehaviour
         permEffectManager.Reset();
         isInvincibleCnt = 0;
         shopScript.Reset();
+        foodManager.Reset();
+        goldManager.Reset();
     }
 
     void Start()
@@ -38,11 +42,16 @@ public class SnakeManager : MonoBehaviour
         abilities.OnTick();
         snakeMove.OnTick();
         effectManager.OnTick();
+        foreach (Transform food in foodManager.transform)
+        {
+            FoodScript foodScript = food.GetComponent<FoodScript>();
+            foodScript.OnTick();
+        }
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
+        if (!paused) { timer += Time.deltaTime; }
         if (timer >= tickTime)
         {
             OnTick();
@@ -54,7 +63,6 @@ public class SnakeManager : MonoBehaviour
     {
         foreach (Transform wall in wallManager.transform)
         {
-            Debug.Log(wall.transform.position);
             if (wall.transform.position == transform.position)
             {
                 return true;

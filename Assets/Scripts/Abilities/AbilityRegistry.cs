@@ -17,6 +17,7 @@ public static class AbilityRegistry
         RegisterAbility(new LineCollect());
         RegisterAbility(new FaceCollect());
         RegisterAbility(new Retract());
+        RegisterAbility(new Spawn());
     }
 
     public static void RegisterAbility(Ability ability)

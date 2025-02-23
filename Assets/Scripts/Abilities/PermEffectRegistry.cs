@@ -15,6 +15,7 @@ public static class PermEffectRegistry
         RegisterPermEffect(new LengthCut());
         RegisterPermEffect(new LengthMult());
         RegisterPermEffect(new HardMode());
+        RegisterPermEffect(new AddedFood());
     }
 
     public static void RegisterPermEffect(PermEffect permEffect)
