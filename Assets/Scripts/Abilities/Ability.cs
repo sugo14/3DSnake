@@ -175,11 +175,11 @@ public class Spawn : Ability
     public Spawn() : base
     (
         "Golden Apple",
-        "Randomly spawns a delicious golden apple that rots after 10 turns.",
+        "Spawns a delicious golden apple that quickly rots somewhere on the cube.",
         "Growth-Sprite",
-        25,
+        15,
         Rarity.Mythic
     ) { }
 
-    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new SpawnFood(1, 3, 15, 8, Color.yellow)}; }
+    public override List<TimedEffect> Effect(SnakeManager snakeManager) { return new List<TimedEffect>{new SpawnFood(2, 2, 15, 8, Color.yellow)}; }
 }

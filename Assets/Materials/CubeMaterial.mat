@@ -70,7 +70,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GridScale: 10
+    - _GridScale: 8
     - _GridSize: 1.0000001
     - _LineThickness: 0.1
     - _LineWidthX: 0.25
